@@ -28,39 +28,119 @@ const radius = 5,
 // Dimensions of chart.
 const margin = { top: 20, right: 20, bottom: 20, left: 20 },
       width = 900 - margin.left - margin.right,
-      height = 360 - margin.top - margin.bottom; 
+      height = 1000 - margin.top - margin.bottom; 
 
 const svg = d3.select("#chart").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
-  .append("g")
+    .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 d3.select("#chart").style("width", (width+margin.left+margin.right)+"px");
 
 
+
+// Legends
+
+ svg.append("circle")
+	.attr("cx", 300)
+	.attr("cy", -10)
+	.attr("r", 10)
+	.attr("fill", "#116466");
+	
+	
+	svg.append("text")
+		.attr("x", 315)
+		.attr("y", -5)
+		.text(": Base")
+		.attr("font-family", "sans-serif")
+		.attr("font-size", "15px");
+		
+ svg.append("circle")
+	.attr("cx", 405)
+	.attr("cy", -10)
+	.attr("r", 10)
+	.attr("fill", "#D9B08C");
+	
+	
+	svg.append("text")
+		.attr("x", 420)
+		.attr("y", -5)
+		.text(": Elite")
+		.attr("font-family", "sans-serif")
+		.attr("font-size", "15px");
+		
+svg.append("circle")
+	.attr("cx", 510)
+	.attr("cy", -10)
+	.attr("r", 10)
+	.attr("fill", "#5bc9c9");
+	
+	
+	svg.append("text")
+		.attr("x", 525)
+		.attr("y", -5)
+		.text(": Blank")
+		.attr("font-family", "sans-serif")
+		.attr("font-size", "15px");
+		
+		
+//Append circle 
+
 // Group coordinates and meta info. 
-const groups = {
+/*const groups = {
     "met": { x: width/5, y: height/2, color: "#FAF49A", cnt: 0, fullname: "Met" }, 
 	"romantic": { x: 2*width/5, y: height/2, color: "#BEE5AA", cnt: 0, fullname: "Romantic" },
     "lived": { x: 3*width/5, y: height/2, color: "#93D1BA", cnt: 0, fullname: "Lived Together" },
     "married": { x: 4*width/5, y: height/2, color: "#79BACE", cnt: 0, fullname: "Married" },
+};*/
+
+const groups = {
+	
+	"Homepage": { x: width/5-50, y: height/5-50, cnt: 0, fullname: "Homepage" },
+	"Product": { x: 5+4*width/5, y: height/2+50, cnt: 0, fullname: "Product" },
+	"Other": { x: 3*width/5-100, y: height/7+100, cnt: 0, fullname: "Other" },
+	"Category": { x: width-150, y: height/8+50, cnt: 0, fullname: "Category" },
+	"BlogContent": { x: width/5, y: height-100, cnt: 0, fullname: "BlogContent" },
+	"Cart": { x: width/6-50, y: height-250, cnt: 0, fullname: "Cart" },
+	"Checkout": { x: width/5-100, y: height/2, cnt: 0, fullname: "Checkout" },
+	"Loyalty": { x: width/4, y: height/2-120, cnt: 0, fullname: "Loyalty" },
+	"MyAccount": { x: 2*width/5, y: height-300, cnt: 0, fullname: "MyAccount" },
+	"Register": { x: 250+width/5, y: height/2, cnt: 0, fullname: "Register" },
+	"SearchResult": { x: 400+width/5, y: height-180, cnt: 0, fullname: "SearchResult" }
+	
+};
+
+const member_tiers = {
+
+	"Base": { color: "#116466" },
+	"Elite": { color: "#D9B08C" },
+	"NULL": { color: "#5bc9c9" }
+
 };
 
 
+
 // Load data.
-const stages = d3.tsv("data/stages.tsv", d3.autoType);
+const stages = d3.csv("data/Page_Duration.csv", d3.autoType);
 
 // Once data is loaded...
 stages.then(function(data) {
-    
+	
     // Consolidate stages by pid.
     // The data file is one row per stage change.
-    data.forEach(d => {
+ /*   data.forEach(d => {
         if (d3.keys(people).includes(d.pid+"")) {
             people[d.pid+""].push(d);
         } else {
             people[d.pid+""] = [d];
+        }*/
+		
+	data.forEach(d => {
+        if (d3.keys(people).includes(d.userid+"")) {
+            people[d.userid+""].push(d);
+        } else {
+            people[d.userid+""] = [d];
         }
     });
     
@@ -68,10 +148,12 @@ stages.then(function(data) {
     var nodes = d3.keys(people).map(function(d) {
         
         // Initialize coount for each group.
-        groups[people[d][0].grp].cnt += 1;
-        
+//        groups[people[d][0].grp].cnt += 1;
+		
+		groups[people[d][0].pagetype].cnt += 1;
+  
         return {
-            id: "node"+d,
+/*            id: "node"+d,
             x: groups[people[d][0].grp].x + Math.random(),
             y: groups[people[d][0].grp].y + Math.random(),
             r: radius,
@@ -79,8 +161,20 @@ stages.then(function(data) {
             group: people[d][0].grp,
             timeleft: people[d][0].duration,
             istage: 0,
+            stages: people[d] */
+			
+			id: "node"+d,
+            x: groups[people[d][0].pagetype].x + Math.random(),
+            y: groups[people[d][0].pagetype].y + Math.random(),
+            r: radius,
+            color: member_tiers[people[d][0].member_tier].color,
+            group: people[d][0].pagetype,
+            timeleft: people[d][0].page_duration,
+            istage: 0,
             stages: people[d]
         }
+		
+		
     });
     
     
@@ -105,13 +199,22 @@ stages.then(function(data) {
 
 
     // Group name labels
-    svg.selectAll('.grp')
+/*    svg.selectAll('.grp')
       .data(d3.keys(groups))
       .join("text")
           .attr("class", "grp")
           .attr("text-anchor", "middle")
           .attr("x", d => groups[d].x)
           .attr("y", d => 50)
+          .text(d => groups[d].fullname);*/
+		  
+	  svg.selectAll('.pagetype')
+      .data(d3.keys(groups))
+      .join("text")
+          .attr("class", "pagetype")
+          .attr("text-anchor", "middle")
+          .attr("x", d => groups[d].x)
+          .attr("y", d => groups[d].y-10)
           .text(d => groups[d].fullname);
           
     // Group counts
@@ -121,7 +224,7 @@ stages.then(function(data) {
           .attr("class", "grpcnt")
           .attr("text-anchor", "middle")
           .attr("x", d => groups[d].x)
-          .attr("y", d => 70)
+          .attr("y", d => groups[d].y+10)
           .text(d => groups[d].cnt);
 
 
@@ -136,16 +239,19 @@ stages.then(function(data) {
         .alphaDecay(0);
 
     // Adjust position of circles.
-    simulation.on("tick", () => {    
+    simulation.on("tick", () => {   
+
         circle
             .attr("cx", d => d.x)
             .attr("cy", d => d.y)
-            .attr("fill", d => groups[d.group].color);
+//            .attr("fill", d => groups[d.group].color);
+//			.attr("fill", d => member_tiers[d.member_tier].color);
+
         });
     
     
     
-    
+
     // Make time pass. Adjust node stage as necessary.
     function timer() {
         
@@ -157,8 +263,9 @@ stages.then(function(data) {
                 
                 // Update current node to new group.
                 o.istage += 1;
-                o.group = o.stages[o.istage].grp;
+                o.group = o.stages[o.istage].pagetype;
                 o.timeleft = o.stages[o.istage].duration;
+				o.timeleft = o.stages[o.istage].page_duration;
                 
                 // Increment count for new group.
                 groups[o.group].cnt += 1;
@@ -209,7 +316,7 @@ function forceCluster() {
 
 // Force for collision detection.
 function forceCollide() {
-  const alpha = 0.2; // fixed for greater rigidity!
+  const alpha = 0.4; // fixed for greater rigidity!
   const padding1 = padding; // separation between same-color nodes
   const padding2 = cluster_padding; // separation between different-color nodes
   let nodes;
