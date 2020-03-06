@@ -150,9 +150,9 @@ const member_tiers = {
 // Load data.
 
 
-//d3.csv("data/Page_Duration.csv", function(error, data) {	
+d3.csv("data/Page_Duration.csv", function(error, data) {	
 
-d3.csv("data/new_dataset.csv", function(error, data) {	
+//d3.csv("data/new_dataset.csv", function(error, data) {	
 
 
 
@@ -165,18 +165,18 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 		sched_objs.push(activities);
 	}); */
 	console.log(data)
-	var count = 0;
+//	var count = 0;
 	data.forEach(d => {
 //	console.log(d)
-		count+=1
-		if (d3.keys(sched_objs).includes(count)) {
-//        if (d3.keys(sched_objs).includes(d.userid+"")) {
+//	count+=1;
+//		if (d3.keys(sched_objs).includes(count)) {
+        if (d3.keys(sched_objs).includes(d.userid+"")) {
 //		console.log(d.userid)
-//            sched_objs[d.userid+""].push({'userid': d.userid, 'act': d.pagetype, 'duration': d.page_duration, 'member_tier': d.member_tier, 'start_time': d.start_time});
-			sched_objs[count].push({'userid': d.sessionid, 'act': d.pagetype, 'duration': d.page_duration, 'member_tier': d.member_tier, 'start_time': d.tstamp});
+            sched_objs[d.userid+""].push({'userid': d.userid, 'act': d.pagetype, 'duration': d.page_duration, 'member_tier': d.member_tier, 'start_time': d.start_time});
+//			sched_objs[count].push({'userid': d.sessionid, 'act': d.pagetype, 'duration': d.page_duration, 'member_tier': d.member_tier, 'start_time': d.tstamp});
         } else {
-//            sched_objs[d.userid+""] = [{'userid': d.userid, 'act': d.pagetype, 'duration': d.page_duration, 'member_tier': d.member_tier, 'start_time': d.start_time}];
-			sched_objs[count] = [{'userid': d.sessionid, 'act': d.pagetype, 'duration': d.page_duration, 'member_tier': d.member_tier, 'start_time': d.tstamp}];
+            sched_objs[d.userid+""] = [{'userid': d.userid, 'act': d.pagetype, 'duration': d.page_duration, 'member_tier': d.member_tier, 'start_time': d.start_time}];
+//			sched_objs[count] = [{'userid': d.sessionid, 'act': d.pagetype, 'duration': d.page_duration, 'member_tier': d.member_tier, 'start_time': d.tstamp}];
         }
     });
 	
@@ -184,7 +184,7 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 	console.log(sched_objs)
 
 	var nodes = sched_objs.map(function(o,i) {
-		console.log("test");
+//		console.log("test");
 //		console.log(o[0].userid,o[0].start_time, o[0].duration);
 	
 		var act = o[0].act;
@@ -224,8 +224,8 @@ d3.csv("data/new_dataset.csv", function(error, data) {
         } 
     });*/
 	
-	curr_nodes = nodes.filter(function(d){ return d.sched[0].start_time == data[0].tstamp } );
-	
+	curr_nodes = nodes.filter(function(d){ return d.sched[0].start_time == data[0].start_time } );
+//	curr_nodes = nodes.filter(function(d){ return d.sched[0].start_time == data[0].tstamp } );
 	curr_nodes.forEach(d => {
 		groups[d.act].cnt += 1;
 	}
@@ -305,8 +305,14 @@ d3.csv("data/new_dataset.csv", function(error, data) {
           .attr("y", d => groups[d].y-10)
           .text(d => groups[d].cnt);
 		  
+		  console.log(data[0])
+		  
+//		  sts_time = String(data[0].session_start_time.split(" ")[0])
+//		  console.log(sts_time.split(" ")[0])
+//		  console.log(data[0].session_start_time.split(" ")[0])
 		  // Initial Date Time
-		  	d3.select("#current_date").text(data[0].tstamp.split(" ")[0]);
+		  	d3.select("#current_date").text(data[0].start_time.split(" ")[0]);
+//		d3.select("#current_date").text(sts_time);
 
 
 	
