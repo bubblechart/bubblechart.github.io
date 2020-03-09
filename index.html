@@ -74,56 +74,56 @@ d3.select("#chart").style("width", (width+margin.left+margin.right)+"px");
 
  svg.append("circle")
 	.attr("cx", 50)
-	.attr("cy", -10)
+	.attr("cy", -30)
 	.attr("r", 10)
-	.attr("fill", "#D9B08C");
+	.attr("fill", "#FF839A");
 	
 	
 	svg.append("text")
 		.attr("x", 65)
-		.attr("y", -5)
+		.attr("y", -25)
 		.text(": Elite")
 		.attr("font-family", "sans-serif")
 		.attr("font-size", "15px");
 		
  svg.append("circle")
 	.attr("cx", 150)
-	.attr("cy", -10)
+	.attr("cy", -30)
 	.attr("r", 10)
-	.attr("fill", "#116466");
+	.attr("fill", "#83FFEE");
 	
 	
 	svg.append("text")
 		.attr("x", 165)
-		.attr("y", -5)
+		.attr("y", -25)
 		.text(": Member")
 		.attr("font-family", "sans-serif")
 		.attr("font-size", "15px");
 		
 svg.append("circle")
 	.attr("cx", 280)
-	.attr("cy", -10)
+	.attr("cy", -30)
 	.attr("r", 10)
-	.attr("fill", "#B12443");
+	.attr("fill", "#FDFF83");
 	
 	
 	svg.append("text")
 		.attr("x", 295)
-		.attr("y", -5)
+		.attr("y", -25)
 		.text(": Eshopper")
 		.attr("font-family", "sans-serif")
 		.attr("font-size", "15px");
 		
 svg.append("circle")
 	.attr("cx", 400)
-	.attr("cy", -10)
+	.attr("cy", -30)
 	.attr("r", 10)
-	.attr("fill", "#C0C0C0");
+	.attr("fill", "#ECECEC");
 	
 	
 	svg.append("text")
 		.attr("x", 415)
-		.attr("y", -5)
+		.attr("y", -25)
 		.text(": Anonymous")
 		.attr("font-family", "sans-serif")
 		.attr("font-size", "15px");
@@ -135,30 +135,28 @@ svg.append("circle")
 
 const groups = {
 	
-	"Homepage": { x: 440, y: 220, cnt: 0, fullname: "Homepage" },
-	"Product": { x: 350, y: 450, cnt: 0, fullname: "Product" },
-	"Other": { x: 220, y: 220, cnt: 0, fullname: "Other" },
-	"Category": { x: 620, y: 200, cnt: 0, fullname: "Category" },
-	"BlogContent": { x: 20, y: 170, cnt: 0, fullname: "Blog Content" },
-	"Cart": { x: 150, y: 380, cnt: 0, fullname: "Cart" },
-	"Checkout": { x: 40, y: 270, cnt: 0, fullname: "Checkout" },
-	"Loyalty": { x: 600, y: 80, cnt: 0, fullname: "Loyalty" },
-	"MyAccount": { x: 350, y: 40, cnt: 0, fullname: "My Account" },
-	"Register": { x: 120, y: 60, cnt: 0, fullname: "Register" },
-	"SearchResult": { x: 590, y: 350, cnt: 0, fullname: "Search Result" },
-	"Left" : { x: 400, y: 650, cnt: 0, fullname: "Left" },
-	"NULL" : { x: 100, y: 500, cnt: 0, fullname: "Order Placed" }
+	"Homepage": { x: 20, y: 60, cnt: 0, fullname: "Homepage" },
+	"Product": { x: 20, y: 450, cnt: 0, fullname: "Product" },
+	"Other": { x: 300, y: 550, cnt: 0, fullname: "Other" },
+	"Category": { x: 20, y: 250, cnt: 0, fullname: "Category" },
+	"BlogContent": { x: 620, y: 190, cnt: 0, fullname: "Blog Content" },
+	"Cart": { x: 200, y: 400, cnt: 0, fullname: "Cart" },
+	"Checkout": { x: 380, y: 400, cnt: 0, fullname: "Checkout" },
+	"Loyalty": { x: 600, y: 60, cnt: 0, fullname: "Loyalty" },
+	"MyAccount": { x: 380, y: 40, cnt: 0, fullname: "My Account" },
+	"Register": { x: 200, y: 60, cnt: 0, fullname: "Register" },
+	"SearchResult": { x: 300, y: 220, cnt: 0, fullname: "Search Result" },
+	"Left" : { x: 400, y: 2000, cnt: 0, fullname: "Left" },
+	"NULL" : { x: 600, y: 400, cnt: 0, fullname: "Order Placed" }
 	
 };
 
 const member_tiers = {
 
-//	"Base": { color: "#116466" },
-	"Elite": { color: "#D9B08C" },
-//	"NULL": { color: "#5bc9c9" },
-	"anonymous": { color: "#C0C0C0" },
-	"Member": {color: "#116466"},
-	"eshopper": {color: "#B12443"}
+	"Elite": { color: "FF839A" },
+	"anonymous": { color: "#ECECEC" },
+	"Member": {color: "#83FFEE"},
+	"eshopper": {color: "#FDFF83"}
 
 };
 
@@ -260,7 +258,7 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 			moves: 0,
 			next_move_time: parseInt(d[0].duration),
 			sched: d,		
-			stroke: "black",
+			stroke: "green",
 			start_time: init_time,
 			leave: 0
 		})
@@ -277,11 +275,12 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 //		console.log(d.sched[0].start_time)
 //		console.log(data[0].tstamp)
       if (d.sched[0].start_time == data[0].tstamp) {
-			d.stroke = "black";
+			d.stroke = "green";
 			curr_nodes.push(d);
 			groups[d.act].cnt += 1;
         } 
     });
+	
 	
 //	curr_nodes = nodes.filter(function(d){ return d.sched[0].start_time == data[0].start_time } );
 //	curr_nodes = nodes.filter(function(d){ return d.sched[0].start_time == data[0].tstamp } );
@@ -304,7 +303,7 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 		.size([width, height])
 		.gravity(0)
 		.charge(0)
-		.friction(.9)
+		.friction(.8)
 		.on("tick", tick)
 		.start();
 
@@ -346,7 +345,8 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 		  .attr("x", d => groups[d].x)
           .attr("y", d => groups[d].y+20)
 		  	.attr("dy", "-1.8em")
-			.style("fill", "#FF839A")
+			.style("fill", "Black")
+			.style("font-weight", "bold")
           .text(d => groups[d].fullname);
 	
 	// Count labels
@@ -363,7 +363,8 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 		  .attr("x", d => groups[d].x)
           .attr("y", d => groups[d].y+20)
 //          .attr("y", d => groups[d].y-10)
-			.style("fill", "#FF839A")
+			.style("fill", "Black")
+			.style("font-weight", "bold")
           .text(d => groups[d].cnt);
 		  
 //		  console.log(data[0])
@@ -409,7 +410,7 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 				console.log("new node");
 				console.log(d);
 				console.log(curr_nodes);
-				d.stroke = "#666666";
+				d.stroke = "green";
 				d.next_move_time += curr_minute;
 				curr_nodes.push(d);
 //				n2 = d;
@@ -458,7 +459,12 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 			
 				// Move on to next activity
 			try{
-				curr_nodes[i].act = curr_nodes[i].sched[ curr_nodes[i].moves ].act;
+				if (curr_nodes[i].sched[ curr_nodes[i].moves ].act != "Other")
+				{
+				
+					curr_nodes[i].act = curr_nodes[i].sched[ curr_nodes[i].moves ].act;
+				
+				}
 				// Add to new activity count
                 // act_counts[curr_node.act] += 1;
                 groups[curr_nodes[i].act].cnt += 1;
