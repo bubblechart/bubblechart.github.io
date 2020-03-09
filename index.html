@@ -147,7 +147,7 @@ const groups = {
 	"Register": { x: 120, y: 60, cnt: 0, fullname: "Register" },
 	"SearchResult": { x: 590, y: 350, cnt: 0, fullname: "Search Result" },
 	"Left" : { x: 400, y: 650, cnt: 0, fullname: "Left" },
-	"NULL" : { x: 100, y: 500, cnt: 0, fullname: "NULL" }
+	"NULL" : { x: 100, y: 500, cnt: 0, fullname: "Order Placed" }
 	
 };
 
@@ -344,7 +344,7 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 		  .attr("class", "actlabel")
           .attr("text-anchor", "middle")
 		  .attr("x", d => groups[d].x)
-          .attr("y", d => groups[d].y-20)
+          .attr("y", d => groups[d].y+20)
 		  	.attr("dy", "-1.8em")
 			.style("fill", "#FF839A")
           .text(d => groups[d].fullname);
@@ -361,7 +361,7 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 		  .attr("class", "cnt")
           .attr("text-anchor", "middle")
 		  .attr("x", d => groups[d].x)
-          .attr("y", d => groups[d].y-20)
+          .attr("y", d => groups[d].y+20)
 //          .attr("y", d => groups[d].y-10)
 			.style("fill", "#FF839A")
           .text(d => groups[d].cnt);
