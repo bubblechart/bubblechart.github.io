@@ -276,6 +276,12 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 //		console.log(data[0].tstamp)
       if (d.sched[0].start_time == data[0].tstamp) {
 			d.stroke = "green";
+			if (d.act == "Other")
+			{
+			//console.log(d.sched[1])
+				try{d.act = d.sched[1].act}
+				catch(err){}
+			}
 			curr_nodes.push(d);
 			groups[d.act].cnt += 1;
         } 
