@@ -37,6 +37,8 @@ var USER_SPEED = "medium";
 var speeds = { "slow": 1200, "medium": 400, "fast": 10 };
 var simtimer;
 
+var curr_date;
+
 var margin = {top: 70, right: 60, bottom: 70, left: 60};
 margin.left = margin.right = width < 500 ? 30 : 70;
 var width = parseInt(d3.select("#chart").style('width'), 10) - margin.left - margin.right,
@@ -54,7 +56,8 @@ var y = d3.scale.linear()
     .domain([1, 4])
     .range([0, height]);
 	
-var sched_objs = [],
+var	sched_objs = {},
+// var sched_objs = [],
 	curr_minute = 0;
 
 const svg = d3.select("#chart").append("svg")
@@ -68,49 +71,63 @@ d3.select("#chart").style("width", (width+margin.left+margin.right)+"px");
 
 
 // Legends
-/*
+
  svg.append("circle")
-	.attr("cx", 300)
-	.attr("cy", -10)
-	.attr("r", 10)
-	.attr("fill", "#116466");
-	
-	
-	svg.append("text")
-		.attr("x", 315)
-		.attr("y", -5)
-		.text(": Base")
-		.attr("font-family", "sans-serif")
-		.attr("font-size", "15px");
-		
- svg.append("circle")
-	.attr("cx", 405)
+	.attr("cx", 50)
 	.attr("cy", -10)
 	.attr("r", 10)
 	.attr("fill", "#D9B08C");
 	
 	
 	svg.append("text")
-		.attr("x", 420)
+		.attr("x", 65)
 		.attr("y", -5)
 		.text(": Elite")
 		.attr("font-family", "sans-serif")
 		.attr("font-size", "15px");
 		
-svg.append("circle")
-	.attr("cx", 510)
+ svg.append("circle")
+	.attr("cx", 150)
 	.attr("cy", -10)
 	.attr("r", 10)
-	.attr("fill", "#5bc9c9");
+	.attr("fill", "#116466");
 	
 	
 	svg.append("text")
-		.attr("x", 525)
+		.attr("x", 165)
 		.attr("y", -5)
-		.text(": Blank")
+		.text(": Member")
 		.attr("font-family", "sans-serif")
 		.attr("font-size", "15px");
-	*/	
+		
+svg.append("circle")
+	.attr("cx", 280)
+	.attr("cy", -10)
+	.attr("r", 10)
+	.attr("fill", "#B12443");
+	
+	
+	svg.append("text")
+		.attr("x", 295)
+		.attr("y", -5)
+		.text(": Eshopper")
+		.attr("font-family", "sans-serif")
+		.attr("font-size", "15px");
+		
+svg.append("circle")
+	.attr("cx", 400)
+	.attr("cy", -10)
+	.attr("r", 10)
+	.attr("fill", "#C0C0C0");
+	
+	
+	svg.append("text")
+		.attr("x", 415)
+		.attr("y", -5)
+		.text(": Anonymous")
+		.attr("font-family", "sans-serif")
+		.attr("font-size", "15px");
+
 		
 //Append circle 
 
@@ -118,29 +135,29 @@ svg.append("circle")
 
 const groups = {
 	
-	"Homepage": { x: 250, y: 150, cnt: 0, fullname: "Homepage" },
-	"Product": { x: 5+4*width/5, y: 200, cnt: 0, fullname: "Product" },
-	"Other": { x: 3*width/5-100, y: 500, cnt: 0, fullname: "Other" },
-	"Category": { x: 100, y: 200, cnt: 0, fullname: "Category" },
-	"BlogContent": { x: 100, y: 270, cnt: 0, fullname: "Blog Content" },
-	"Cart": { x: 250, y: 300, cnt: 0, fullname: "Cart" },
-	"Checkout": { x: 250, y: 400, cnt: 0, fullname: "Checkout" },
-	"Loyalty": { x: width/4, y: 300, cnt: 0, fullname: "Loyalty" },
-	"MyAccount": { x: 100, y: 100, cnt: 0, fullname: "My Account" },
-	"Register": { x: 400, y: 100, cnt: 0, fullname: "Register" },
-	"SearchResult": { x: 5+4*width/5, y: 270, cnt: 0, fullname: "Search Result" },
-	"Left" : { x: 400, y: 600, cnt: 0, fullname: "Left" },
-	"NULL" : { x: 100, y: 600, cnt: 0, fullname: "NULL" }
+	"Homepage": { x: 440, y: 220, cnt: 0, fullname: "Homepage" },
+	"Product": { x: 350, y: 450, cnt: 0, fullname: "Product" },
+	"Other": { x: 220, y: 220, cnt: 0, fullname: "Other" },
+	"Category": { x: 620, y: 200, cnt: 0, fullname: "Category" },
+	"BlogContent": { x: 20, y: 170, cnt: 0, fullname: "Blog Content" },
+	"Cart": { x: 150, y: 380, cnt: 0, fullname: "Cart" },
+	"Checkout": { x: 40, y: 270, cnt: 0, fullname: "Checkout" },
+	"Loyalty": { x: 600, y: 80, cnt: 0, fullname: "Loyalty" },
+	"MyAccount": { x: 350, y: 40, cnt: 0, fullname: "My Account" },
+	"Register": { x: 120, y: 60, cnt: 0, fullname: "Register" },
+	"SearchResult": { x: 590, y: 350, cnt: 0, fullname: "Search Result" },
+	"Left" : { x: 400, y: 650, cnt: 0, fullname: "Left" },
+	"NULL" : { x: 100, y: 500, cnt: 0, fullname: "NULL" }
 	
 };
 
 const member_tiers = {
 
-	"Base": { color: "#116466" },
+//	"Base": { color: "#116466" },
 	"Elite": { color: "#D9B08C" },
-	"NULL": { color: "#5bc9c9" },
+//	"NULL": { color: "#5bc9c9" },
 	"anonymous": { color: "#C0C0C0" },
-	"Member": {color: "#90EE90"},
+	"Member": {color: "#116466"},
 	"eshopper": {color: "#B12443"}
 
 };
@@ -150,9 +167,9 @@ const member_tiers = {
 // Load data.
 
 
-d3.csv("data/Page_Duration.csv", function(error, data) {	
+//d3.csv("data/Page_Duration.csv", function(error, data) {	
 
-//d3.csv("data/new_dataset.csv", function(error, data) {	
+d3.csv("data/new_dataset.csv", function(error, data) {	
 
 
 
@@ -165,27 +182,30 @@ d3.csv("data/Page_Duration.csv", function(error, data) {
 		sched_objs.push(activities);
 	}); */
 	console.log(data)
-//	var count = 0;
+	var count = 0;
+	
+
+	
 	data.forEach(d => {
 //	console.log(d)
 //	count+=1;
-//		if (d3.keys(sched_objs).includes(count)) {
-        if (d3.keys(sched_objs).includes(d.userid+"")) {
+		if (d3.keys(sched_objs).includes(d.sessionid)) {
+//        if (d3.keys(sched_objs).includes(d.userid+"")) {
 //		console.log(d.userid)
-            sched_objs[d.userid+""].push({'userid': d.userid, 'act': d.pagetype, 'duration': d.page_duration, 'member_tier': d.member_tier, 'start_time': d.start_time});
-//			sched_objs[count].push({'userid': d.sessionid, 'act': d.pagetype, 'duration': d.page_duration, 'member_tier': d.member_tier, 'start_time': d.tstamp});
+//            sched_objs[d.userid+""].push({'userid': d.userid, 'act': d.pagetype, 'duration': d.page_duration, 'member_tier': d.member_tier, 'start_time': d.start_time});
+			sched_objs[d.sessionid+""].push({'userid': d.sessionid, 'act': d.pagetype, 'duration': d.page_duration, 'member_tier': d.member_tier, 'start_time': d.tstamp});
         } else {
-            sched_objs[d.userid+""] = [{'userid': d.userid, 'act': d.pagetype, 'duration': d.page_duration, 'member_tier': d.member_tier, 'start_time': d.start_time}];
-//			sched_objs[count] = [{'userid': d.sessionid, 'act': d.pagetype, 'duration': d.page_duration, 'member_tier': d.member_tier, 'start_time': d.tstamp}];
+//            sched_objs[d.userid+""] = [{'userid': d.userid, 'act': d.pagetype, 'duration': d.page_duration, 'member_tier': d.member_tier, 'start_time': d.start_time}];
+			sched_objs[d.sessionid+""] = [{'userid': d.sessionid, 'act': d.pagetype, 'duration': d.page_duration, 'member_tier': d.member_tier, 'start_time': d.tstamp}];
         }
     });
 	
 
 	console.log(sched_objs)
 
-	var nodes = sched_objs.map(function(o,i) {
+/*	var nodes = sched_objs.map(function(o,i) {
 //		console.log("test");
-//		console.log(o[0].userid,o[0].start_time, o[0].duration);
+		console.log(o[0].userid,o[0].start_time, o[0].duration);
 	
 		var act = o[0].act;
 		var init_time = o[0].start_time;
@@ -209,31 +229,70 @@ d3.csv("data/Page_Duration.csv", function(error, data) {
 			stroke: "black",
 			start_time: init_time
 		}
-	});
+	});*/
+	
+	var nodes = [];
+	
+	console.log(Object.keys(sched_objs).length)
+	
+	for (var k in sched_objs){
+//		console.log(k)
+//		console.log("test");
+		d = sched_objs[k];
+//		console.log(d[0].userid,d[0].start_time, d[0].duration);
+	
+		var act = d[0].act;
+		var init_time = d[0].start_time;
+	
+		var init_x = groups[act].x + Math.random();
+		var init_y = groups[act].y + Math.random();
+		var col = member_tiers[d[0].member_tier].color;
+
+	//	groups[act].cnt += 1;
+		
+		nodes.push({
+			userid: d[0].userid,
+			act: act,
+			radius: maxRadius,
+			x: init_x,
+			y: init_y,
+			color: col, //color(act),
+			moves: 0,
+			next_move_time: parseInt(d[0].duration),
+			sched: d,		
+			stroke: "black",
+			start_time: init_time,
+			leave: 0
+		})
+	
+	}
+	
 	console.log(nodes);
 	
 	var curr_nodes = [];
 
 
-		
-	/*nodes.forEach(d => {
-      if (d.sched[0].start_time == data[0].start_time) {
+	console.log(data)
+	nodes.forEach(d => {
+//		console.log(d.sched[0].start_time)
+//		console.log(data[0].tstamp)
+      if (d.sched[0].start_time == data[0].tstamp) {
 			d.stroke = "black";
 			curr_nodes.push(d);
 			groups[d.act].cnt += 1;
         } 
-    });*/
+    });
 	
-	curr_nodes = nodes.filter(function(d){ return d.sched[0].start_time == data[0].start_time } );
+//	curr_nodes = nodes.filter(function(d){ return d.sched[0].start_time == data[0].start_time } );
 //	curr_nodes = nodes.filter(function(d){ return d.sched[0].start_time == data[0].tstamp } );
-	curr_nodes.forEach(d => {
+/*	curr_nodes.forEach(d => {
 		groups[d.act].cnt += 1;
 	}
-	);
+	);*/
 	
 	
 	//curr_nodes = nodes.filter(d => d.sched[0].start_time == data[0].start_time);
-	console.log(nodes.length)
+//	console.log(nodes.length)
 //	curr_nodes = nodes
 
 	console.log(curr_nodes)
@@ -285,8 +344,9 @@ d3.csv("data/Page_Duration.csv", function(error, data) {
 		  .attr("class", "actlabel")
           .attr("text-anchor", "middle")
 		  .attr("x", d => groups[d].x)
-          .attr("y", d => groups[d].y)
+          .attr("y", d => groups[d].y-20)
 		  	.attr("dy", "-1.8em")
+			.style("fill", "#FF839A")
           .text(d => groups[d].fullname);
 	
 	// Count labels
@@ -301,23 +361,32 @@ d3.csv("data/Page_Duration.csv", function(error, data) {
 		  .attr("class", "cnt")
           .attr("text-anchor", "middle")
 		  .attr("x", d => groups[d].x)
-          .attr("y", d => groups[d].y-10)
-          .attr("y", d => groups[d].y-10)
+          .attr("y", d => groups[d].y-20)
+//          .attr("y", d => groups[d].y-10)
+			.style("fill", "#FF839A")
           .text(d => groups[d].cnt);
 		  
-		  console.log(data[0])
+//		  console.log(data[0])
 		  
 //		  sts_time = String(data[0].session_start_time.split(" ")[0])
 //		  console.log(sts_time.split(" ")[0])
 //		  console.log(data[0].session_start_time.split(" ")[0])
 		  // Initial Date Time
-		  	d3.select("#current_date").text(data[0].start_time.split(" ")[0]);
-//		d3.select("#current_date").text(sts_time);
+//		  	d3.select("#current_date").text(data[0].start_time.split(" ")[0]);
+
+		curr_date = data[0].tstamp.split(" ")[0];
+
+		console.log(data[0])
+		console.log(data[0].tstamp)
+		d3.select("#current_date").text(curr_date);
+		console.log("test")
 
 
 	
 		// Update nodes based on activity and duration
 	function timer() {
+	
+		
 
 		d3.range(curr_nodes.length).map(function(i) {
             // var curr_node = nodes[i],
@@ -340,7 +409,7 @@ d3.csv("data/Page_Duration.csv", function(error, data) {
 				console.log("new node");
 				console.log(d);
 				console.log(curr_nodes);
-				d.stroke = "black";
+				d.stroke = "#666666";
 				d.next_move_time += curr_minute;
 				curr_nodes.push(d);
 //				n2 = d;
@@ -369,12 +438,13 @@ d3.csv("data/Page_Duration.csv", function(error, data) {
 				}
 		 
 			} 
+			nodes.pop(d)
 		});
 
 			// Time to go to next activity
 			if (curr_nodes[i].next_move_time == curr_minute) {
 				curr_nodes[i].stroke = "transparent";
-				if (curr_nodes[i].moves == nodes[i].sched.length-1) {
+				if (curr_nodes[i].moves == curr_nodes[i].sched.length-1) {
 					curr_nodes[i].moves = 0;
 				} else {
 					curr_nodes[i].moves += 1;
@@ -384,7 +454,7 @@ d3.csv("data/Page_Duration.csv", function(error, data) {
                 // act_counts[curr_node.act] -= 1;
                 groups[curr_nodes[i].act].cnt -= 1;
 				
-				console.log(curr_nodes)
+//				console.log(curr_nodes)
 			
 				// Move on to next activity
 			try{
@@ -398,17 +468,19 @@ d3.csv("data/Page_Duration.csv", function(error, data) {
 				}
 				catch (err)
 				{
-					curr_nodes[i].act = "Left";
-					groups[curr_nodes[i].act].cnt += 1;
-					curr_nodes[i].next_move_time = curr_minute - 10;
+					//curr_nodes[i].act = "Left";
+					//groups[curr_nodes[i].act].cnt += 1;
+					curr_nodes[i].next_move_time = curr_minute + 10;
+					curr_nodes[i].stroke = "yellow";
+					curr_nodes[i].leave = 1;
 				}
-	
-				
-
 			
-
-				
-			
+			if (curr_nodes[i].leave == 1)
+			{
+				curr_nodes[i].act = "Left";
+				groups[curr_nodes[i].act].cnt += 1;
+				curr_nodes[i].next_move_time = curr_minute - 10;
+			}
 
 //				console.log(curr_nodes[i].next_move_time);
 			}
@@ -552,7 +624,7 @@ function get_currDateTime (d) {
 // Minutes to time of day. Data is minutes from 4am.
 function minutesToTime(s) {
 //	console.log(s)
-	d = "11/1/2019";
+	d = curr_date;
 
 //	var seconds = s % 1440;
 	var seconds = s;
