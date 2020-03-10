@@ -309,7 +309,7 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 		// .links([])
 		.size([width, height])
 		.gravity(0)
-		.charge(0)
+		.charge(0.2)
 		.friction(.8)
 		.on("tick", tick)
 		.start();
@@ -320,7 +320,7 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 		.attr("r", function(d) { return d.radius; })
 		.style("fill", function(d) { return d.color; })
 		.style("stroke", function(d) { return d.stroke; });
-		// .call(force.drag); 
+	//	 .call(force.drag); 
 
 					
 		
