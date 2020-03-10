@@ -238,6 +238,7 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 //		console.log("test");
 		d = sched_objs[k];
 //		console.log(d[0].userid,d[0].start_time, d[0].duration);
+//		console.log(d)
 	
 		var act = d[0].act;
 		var init_time = d[0].start_time;
@@ -258,7 +259,7 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 			moves: 0,
 			next_move_time: parseInt(d[0].duration),
 			sched: d,		
-			stroke: "green",
+			stroke: "blue",
 			start_time: init_time,
 			leave: 0
 		})
@@ -270,7 +271,7 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 	var curr_nodes = [];
 
 
-	console.log(data)
+//	console.log(data)
 	nodes.forEach(d => {
 //		console.log(d.sched[0].start_time)
 //		console.log(data[0].tstamp)
@@ -415,7 +416,7 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 				console.log(curr_nodes);
 				console.log("new node");
 				console.log(d);
-				console.log(curr_nodes);
+//				console.log(curr_nodes);
 				d.stroke = "green";
 				d.next_move_time += curr_minute;
 				curr_nodes.push(d);
@@ -450,6 +451,7 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 
 			// Time to go to next activity
 			if (curr_nodes[i].next_move_time == curr_minute) {
+				//console.log(curr_nodes[i].sched)
 				curr_nodes[i].stroke = "transparent";
 				if (curr_nodes[i].moves == curr_nodes[i].sched.length-1) {
 					curr_nodes[i].moves = 0;
@@ -465,11 +467,17 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 			
 				// Move on to next activity
 			try{
+//				console.log(curr_nodes[i].sched)
+//				console.log(curr_nodes[i].act)
+//				console.log(curr_nodes[i].moves)
+//				console.log(curr_nodes[i].next_move_time)
+				
 				if (curr_nodes[i].sched[ curr_nodes[i].moves ].act != "Other")
 				{
 				
 					curr_nodes[i].act = curr_nodes[i].sched[ curr_nodes[i].moves ].act;
-				
+//					console.log(curr_nodes[i].act)
+					curr_nodes[i].moves += 1;
 				}
 				// Add to new activity count
                 // act_counts[curr_node.act] += 1;
@@ -477,24 +485,28 @@ d3.csv("data/new_dataset.csv", function(error, data) {
                 // nodes[i].moves = nodes[i].moves;
 			
 				curr_nodes[i].next_move_time += parseInt(curr_nodes[i].sched[ curr_nodes[i].moves ].duration);
+//				console.log(curr_nodes[i].next_move_time)
 				}
 				catch (err)
 				{
 					//curr_nodes[i].act = "Left";
 					//groups[curr_nodes[i].act].cnt += 1;
-					curr_nodes[i].next_move_time = curr_minute + 10;
-					curr_nodes[i].stroke = "yellow";
+					curr_nodes[i].next_move_time = curr_minute + 30;
+					curr_nodes[i].stroke = "black";
 					curr_nodes[i].leave = 1;
+//					console.log("error")
 				}
 			
 			if (curr_nodes[i].leave == 1)
 			{
+				groups[curr_nodes[i].act].cnt -= 1;
+//				console.log("LEAVE")
 				curr_nodes[i].act = "Left";
 				groups[curr_nodes[i].act].cnt += 1;
 				curr_nodes[i].next_move_time = curr_minute - 10;
 			}
 
-//				console.log(curr_nodes[i].next_move_time);
+//				console.log(groups["Left"].cnt);
 			}
 
 		});
