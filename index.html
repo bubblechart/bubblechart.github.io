@@ -454,20 +454,23 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 				//console.log(curr_nodes[i].sched)
 				curr_nodes[i].stroke = "transparent";
 				console.log(curr_nodes[i].moves, curr_nodes[i].sched.length-1)
-				if (curr_nodes[i].moves == curr_nodes[i].sched.length-1) {
+/*				if (curr_nodes[i].moves == curr_nodes[i].sched.length-1) {
 					curr_nodes[i].moves = 0;
 				} else {
 					curr_nodes[i].moves += 1;
-				}
+				}*/
+				
+				curr_nodes[i].moves += 1;
+				
 				console.log(curr_nodes[i].moves)
 			
 				// Subtract from current activity count
                 // act_counts[curr_node.act] -= 1;
-                groups[curr_nodes[i].act].cnt -= 1;
+                //groups[curr_nodes[i].act].cnt -= 1;
 				
 			if (curr_nodes[i].leave == 1)
 				{
-//					groups[curr_nodes[i].act].cnt -= 1;
+					groups[curr_nodes[i].act].cnt -= 1;
 	//				console.log("LEAVE")
 					curr_nodes[i].act = "Left";
 					groups[curr_nodes[i].act].cnt += 1;
@@ -475,41 +478,46 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 				}
 				
 //				console.log(curr_nodes)
-			
-				// Move on to next activity
-			try{
-//				console.log(curr_nodes[i].sched)
-//				console.log(curr_nodes[i].act)
-//				console.log(curr_nodes[i].moves)
-//				console.log(curr_nodes[i].next_move_time)
-				
-				if (curr_nodes[i].sched[ curr_nodes[i].moves ].act != "Other")
-				{
-				
-					curr_nodes[i].act = curr_nodes[i].sched[ curr_nodes[i].moves ].act;
-//					console.log(curr_nodes[i].act)
-//					curr_nodes[i].moves += 1;
-				}
-				// Add to new activity count
-                // act_counts[curr_node.act] += 1;
-                groups[curr_nodes[i].act].cnt += 1;
-                // nodes[i].moves = nodes[i].moves;
-				curr_nodes[i].moves += 1;
 
-				curr_nodes[i].next_move_time += parseInt(curr_nodes[i].sched[ curr_nodes[i].moves ].duration);
-				console.log(curr_nodes[i].moves)
-				console.log(curr_nodes[i].next_move_time)
-				}
-				catch (err)
-				{
-					//curr_nodes[i].act = "Left";
-					//groups[curr_nodes[i].act].cnt += 1;
-					curr_nodes[i].next_move_time = curr_minute + 200;
-					curr_nodes[i].stroke = "red";
-					curr_nodes[i].leave = 1;
-//					console.log("error")
-				}
+			else
+			{
 			
+					// Move on to next activity
+				try{
+	//				console.log(curr_nodes[i].sched)
+	//				console.log(curr_nodes[i].act)
+	//				console.log(curr_nodes[i].moves)
+	//				console.log(curr_nodes[i].next_move_time)
+					
+					if (curr_nodes[i].sched[ curr_nodes[i].moves ].act != "Other")
+					{
+						groups[curr_nodes[i].act].cnt -= 1;
+						curr_nodes[i].act = curr_nodes[i].sched[ curr_nodes[i].moves ].act;
+						groups[curr_nodes[i].act].cnt += 1;
+	//					console.log(curr_nodes[i].act)
+	//					curr_nodes[i].moves += 1;
+					}
+					// Add to new activity count
+					// act_counts[curr_node.act] += 1;
+					//groups[curr_nodes[i].act].cnt += 1;
+					// nodes[i].moves = nodes[i].moves;
+	//				curr_nodes[i].moves += 1;
+
+					curr_nodes[i].next_move_time += parseInt(curr_nodes[i].sched[ curr_nodes[i].moves ].duration);
+					console.log(" " + d_t[1] + ":" + d_t[2] + ":" + d_t[3] + d_t[4])
+					console.log(curr_nodes[i].userid, curr_nodes[i].moves, curr_nodes[i].act)
+					console.log(curr_minute, curr_nodes[i].next_move_time)
+					}
+					catch (err)
+					{
+						//curr_nodes[i].act = "Left";
+						//groups[curr_nodes[i].act].cnt += 1;
+						curr_nodes[i].next_move_time = curr_minute + 200;
+						curr_nodes[i].stroke = "red";
+						curr_nodes[i].leave = 1;
+	//					console.log("error")
+					}
+				}
 
 
 //				console.log(groups["Left"].cnt);
