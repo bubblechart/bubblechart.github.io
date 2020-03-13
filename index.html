@@ -153,7 +153,7 @@ const groups = {
 
 const member_tiers = {
 
-	"Elite": { color: "FF839A" },
+	"Elite": { color: "#FF839A" },
 	"anonymous": { color: "#ECECEC" },
 	"Member": {color: "#83FFEE"},
 	"eshopper": {color: "#FDFF83"}
@@ -169,7 +169,7 @@ const member_tiers = {
 
 d3.csv("data/new_dataset.csv", function(error, data) {	
 
-
+//d3.csv("data/test2.csv", function(error, data) {	
 
 /*	data.forEach(function(d) {
 	
@@ -194,7 +194,7 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 			sched_objs[d.sessionid+""].push({'userid': d.sessionid, 'act': d.pagetype, 'duration': d.page_duration, 'member_tier': d.member_tier, 'start_time': d.tstamp});
         } else {
 //            sched_objs[d.userid+""] = [{'userid': d.userid, 'act': d.pagetype, 'duration': d.page_duration, 'member_tier': d.member_tier, 'start_time': d.start_time}];
-			sched_objs[d.sessionid+""] = [{'userid': d.sessionid, 'act': d.pagetype, 'duration': d.page_duration, 'member_tier': d.member_tier, 'start_time': d.tstamp}];
+			sched_objs[d.sessionid+""] = [{'userid': d.sessionid, 'act': d.pagetype, 'duration': Math.floor(d.page_duration), 'member_tier': d.member_tier, 'start_time': d.tstamp}];
         }
     });
 	
@@ -280,7 +280,7 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 			if (d.act == "Other")
 			{
 			//console.log(d.sched[1])
-				try{d.act = d.sched[1].act}
+				try{d.act = d.sched[1].act; console.log(d.act, d.color)}
 				catch(err){}
 			}
 			curr_nodes.push(d);
@@ -453,15 +453,26 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 			if (curr_nodes[i].next_move_time == curr_minute) {
 				//console.log(curr_nodes[i].sched)
 				curr_nodes[i].stroke = "transparent";
+				console.log(curr_nodes[i].moves, curr_nodes[i].sched.length-1)
 				if (curr_nodes[i].moves == curr_nodes[i].sched.length-1) {
 					curr_nodes[i].moves = 0;
 				} else {
 					curr_nodes[i].moves += 1;
 				}
+				console.log(curr_nodes[i].moves)
 			
 				// Subtract from current activity count
                 // act_counts[curr_node.act] -= 1;
                 groups[curr_nodes[i].act].cnt -= 1;
+				
+			if (curr_nodes[i].leave == 1)
+				{
+//					groups[curr_nodes[i].act].cnt -= 1;
+	//				console.log("LEAVE")
+					curr_nodes[i].act = "Left";
+					groups[curr_nodes[i].act].cnt += 1;
+					curr_nodes[i].next_move_time = curr_minute - 10;
+				}
 				
 //				console.log(curr_nodes)
 			
@@ -477,34 +488,29 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 				
 					curr_nodes[i].act = curr_nodes[i].sched[ curr_nodes[i].moves ].act;
 //					console.log(curr_nodes[i].act)
-					curr_nodes[i].moves += 1;
+//					curr_nodes[i].moves += 1;
 				}
 				// Add to new activity count
                 // act_counts[curr_node.act] += 1;
                 groups[curr_nodes[i].act].cnt += 1;
                 // nodes[i].moves = nodes[i].moves;
-			
+				curr_nodes[i].moves += 1;
+
 				curr_nodes[i].next_move_time += parseInt(curr_nodes[i].sched[ curr_nodes[i].moves ].duration);
-//				console.log(curr_nodes[i].next_move_time)
+				console.log(curr_nodes[i].moves)
+				console.log(curr_nodes[i].next_move_time)
 				}
 				catch (err)
 				{
 					//curr_nodes[i].act = "Left";
 					//groups[curr_nodes[i].act].cnt += 1;
-					curr_nodes[i].next_move_time = curr_minute + 30;
-					curr_nodes[i].stroke = "black";
+					curr_nodes[i].next_move_time = curr_minute + 200;
+					curr_nodes[i].stroke = "red";
 					curr_nodes[i].leave = 1;
 //					console.log("error")
 				}
 			
-			if (curr_nodes[i].leave == 1)
-			{
-				groups[curr_nodes[i].act].cnt -= 1;
-//				console.log("LEAVE")
-				curr_nodes[i].act = "Left";
-				groups[curr_nodes[i].act].cnt += 1;
-				curr_nodes[i].next_move_time = curr_minute - 10;
-			}
+
 
 //				console.log(groups["Left"].cnt);
 			}
