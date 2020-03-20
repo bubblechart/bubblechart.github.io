@@ -11,10 +11,16 @@
 	<div id="sidebar">
 <div id="current_date">date</div>
 <div id="current_time">time</div>
+<div align="center">Current Online Users:</div>
+<div id="current_users" align="center">Elite: <span id = "elite">0</span> Member: <span id = "member">0</span> Eshopper: <span id="eshopper">0</span> Anonymous: <span id="anonymous">0</span></div>
+<div id="current_total_users" align="center">Total: 0</div>
 <div id="speed">
 <div class="togglebutton pause" data-val="pause">Pause</div>
 <div class="togglebutton medium current" data-val="medium">Slow</div>
 <div class="togglebutton fast" data-val="fast">Fast</div>
+
+
+
 <div class="clr"></div>
 </div>
 <div id="note"></div>
@@ -153,10 +159,10 @@ const groups = {
 
 const member_tiers = {
 
-	"Elite": { color: "#FF839A" },
-	"anonymous": { color: "#ECECEC" },
-	"Member": {color: "#83FFEE"},
-	"eshopper": {color: "#FDFF83"}
+	"Elite": { color: "#FF839A", cnt: 0 },
+	"anonymous": { color: "#ECECEC", cnt: 0 },
+	"Member": {color: "#83FFEE", cnt: 0},
+	"eshopper": {color: "#FDFF83", cnt: 0}
 
 };
 
@@ -261,7 +267,8 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 			sched: d,		
 			stroke: "blue",
 			start_time: init_time,
-			leave: 0
+			leave: 0,
+			member_tier: d[0].member_tier
 		})
 	
 	}
@@ -280,15 +287,16 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 			if (d.act == "Other")
 			{
 			//console.log(d.sched[1])
-				try{d.act = d.sched[1].act; console.log(d.act, d.color)}
+				try{d.act = d.sched[1].act;}
 				catch(err){}
 			}
 			curr_nodes.push(d);
 			groups[d.act].cnt += 1;
+			member_tiers[d.member_tier].cnt += 1;
         } 
     });
 	
-	
+//	console.log(member_tiers.eshopper.cnt);
 //	curr_nodes = nodes.filter(function(d){ return d.sched[0].start_time == data[0].start_time } );
 //	curr_nodes = nodes.filter(function(d){ return d.sched[0].start_time == data[0].tstamp } );
 /*	curr_nodes.forEach(d => {
@@ -389,7 +397,14 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 		d3.select("#current_date").text(curr_date);
 		console.log("test")
 
+		
 
+
+		d3.select("#elite").text(member_tiers.Elite.cnt)
+		d3.select("#member").text(member_tiers.Member.cnt)
+		d3.select("#eshopper").text(member_tiers.eshopper.cnt)
+		d3.select("#anonymous").text(member_tiers.anonymous.cnt)		
+		d3.select("#current_total_users").text("Total: " + (member_tiers.Elite.cnt+member_tiers.Member.cnt+member_tiers.eshopper.cnt+member_tiers.anonymous.cnt));
 	
 		// Update nodes based on activity and duration
 	function timer() {
@@ -423,6 +438,7 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 //				n2 = d;
 //				n3 = n1.push(n2);
 				groups[d.act].cnt += 1;
+				member_tiers[d.member_tier].cnt += 1;
 				
 				console.log(curr_nodes);
 				
@@ -475,6 +491,9 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 					curr_nodes[i].act = "Left";
 					groups[curr_nodes[i].act].cnt += 1;
 					curr_nodes[i].next_move_time = curr_minute - 10;
+	//				console.log(curr_nodes[i].member_tier)
+	//				console.log(member_tiers[curr_nodes[i].member_tier].cnt)
+					member_tiers[curr_nodes[i].member_tier].cnt -= 1;
 				}
 				
 //				console.log(curr_nodes)
@@ -504,9 +523,9 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 	//				curr_nodes[i].moves += 1;
 
 					curr_nodes[i].next_move_time += parseInt(curr_nodes[i].sched[ curr_nodes[i].moves ].duration);
-					console.log(" " + d_t[1] + ":" + d_t[2] + ":" + d_t[3] + d_t[4])
-					console.log(curr_nodes[i].userid, curr_nodes[i].moves, curr_nodes[i].act)
-					console.log(curr_minute, curr_nodes[i].next_move_time)
+	//				console.log(" " + d_t[1] + ":" + d_t[2] + ":" + d_t[3] + d_t[4])
+	//				console.log(curr_nodes[i].userid, curr_nodes[i].moves, curr_nodes[i].act)
+	//				console.log(curr_minute, curr_nodes[i].next_move_time)
 					}
 					catch (err)
 					{
@@ -542,7 +561,13 @@ d3.csv("data/new_dataset.csv", function(error, data) {
 
         d3.select("#current_time").text(" " + d_t[1] + ":" + d_t[2] + ":" + d_t[3] + d_t[4]);
 		
-        
+      	d3.select("#elite").text(member_tiers.Elite.cnt)
+		d3.select("#member").text(member_tiers.Member.cnt)
+		d3.select("#eshopper").text(member_tiers.eshopper.cnt)
+		d3.select("#anonymous").text( member_tiers.anonymous.cnt)	
+		d3.select("#current_total_users").text("Total: " + (member_tiers.Elite.cnt+member_tiers.Member.cnt+member_tiers.eshopper.cnt+member_tiers.anonymous.cnt));
+	
+		
 		if (USER_SPEED != "pause") {
 		    simtimer = setTimeout(timer, speeds[USER_SPEED]);
 		}
