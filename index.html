@@ -11,7 +11,7 @@
 
 	
 	<div id="sidebar">
-<div id="test">testint</div>
+<!--<div id="test">testint</div>-->
 <div id="current_date">07/02/2020</div>
 <div id="current_time">time</div>
 <div align="center">Current Online Users:</div>
@@ -66,6 +66,7 @@
 <div id="note"></div>
 </div>
 	
+	
     <div id="chart"></div>
 
 
@@ -83,6 +84,7 @@ $('.dropdown').click(function () {
         $(this).attr('tabindex', 1).focus();
         $(this).toggleClass('active');
         $(this).find('.dropdown-menu').slideToggle(300);
+		$(this).find('.dropdown-menu').css({overflow: 'auto'});
     });
     $('.dropdown').focusout(function () {
         $(this).removeClass('active');
@@ -98,7 +100,7 @@ var temp;
 $('.dropdown-menu li').click(function () {
   var input = '<strong>' + $(this).parents('.dropdown').find('input').val() + '</strong>',
   temp = $(this).parents('.dropdown').find('input').val();
-      msg = '<span class="msg">Hidden input value: ';
+      msg = '<span class="msg">Selected Channel: ';
   $('.msg').html(msg + input + '</span>');
   console.log(document.getElementById("list_input").value)
  
@@ -115,10 +117,10 @@ var simtimer;
 
 var curr_date;
 
-var margin = {top: 70, right: 60, bottom: 70, left: 60};
+var margin = {top: 70, right: 60, bottom: 70, left: 10};
 margin.left = margin.right = width < 500 ? 30 : 70;
 var width = parseInt(d3.select("#chart").style('width'), 10) - margin.left - margin.right,
-    height = 900 - margin.top - margin.bottom,
+    height = 1000 - margin.top - margin.bottom,
 	padding = 2,
     maxRadius = width < 500 ? 2 : 4;
 
@@ -135,7 +137,7 @@ var y = d3.scale.linear()
 var	sched_objs = {},
 // var sched_objs = [],
 //	curr_minute = 0;
-	curr_minute = 79200;
+	curr_minute = 79200 - 60;
 
 //const svg = d3.select("#chart").append("svg")
 //    .attr("width", width + margin.left + margin.right)
@@ -150,30 +152,33 @@ d3.select("#chart").style("width", (width+margin.left+margin.right)+"px");
 
 
 // Legends
+
+
+
  svg.append("circle")
 // svg.append("circle")
-	.attr("cx", 50)
+	.attr("cx", 180)
 	.attr("cy", -30)
 	.attr("r", 10)
 	.attr("fill", "#FF839A");
 	
 		svg.append("text")
 //	svg.append("text")
-		.attr("x", 65)
+		.attr("x", 195)
 		.attr("y", -25)
 		.text(": Elite")
 		.attr("font-family", "sans-serif")
 		.attr("font-size", "15px");
 	svg.append("circle")	
 // svg.append("circle")
-	.attr("cx", 150)
+	.attr("cx", 300)
 	.attr("cy", -30)
 	.attr("r", 10)
 	.attr("fill", "#83FFEE");
 	
 	svg.append("text")
 //	svg.append("text")
-		.attr("x", 165)
+		.attr("x", 315)
 		.attr("y", -25)
 		.text(": Member")
 		.attr("font-family", "sans-serif")
@@ -181,14 +186,14 @@ d3.select("#chart").style("width", (width+margin.left+margin.right)+"px");
 		
 	svg.append("circle")	
 //svg.append("circle")
-	.attr("cx", 280)
+	.attr("cx", 420)
 	.attr("cy", -30)
 	.attr("r", 10)
 	.attr("fill", "#FDFF83");
 	
 	svg.append("text")	
 //	svg.append("text")
-		.attr("x", 295)
+		.attr("x", 435)
 		.attr("y", -25)
 		.text(": Eshopper")
 		.attr("font-family", "sans-serif")
@@ -196,14 +201,14 @@ d3.select("#chart").style("width", (width+margin.left+margin.right)+"px");
 		
 svg.append("circle")		
 //svg.append("circle")
-	.attr("cx", 400)
+	.attr("cx", 540)
 	.attr("cy", -30)
 	.attr("r", 10)
-	.attr("fill", "#ECECEC");
+	.attr("fill", "#C0C0C0");
 	
 	svg.append("text")	
 //	svg.append("text")
-		.attr("x", 415)
+		.attr("x", 555)
 		.attr("y", -25)
 		.text(": Anonymous")
 		.attr("font-family", "sans-serif")
@@ -215,27 +220,37 @@ svg.append("circle")
 
 
 const groups = {
+
+	"Paid Search": { x: 4, y: 60, cnt: 0, fullname: "Paid Search"},
+	"Organic Search": { x: 4, y: 160, cnt: 0 , fullname: "Organic Search"},
+	"Social": { x: 4, y: 260, cnt: 0, fullname: "Social"},
+	"Referral": { x: 4, y: 360, cnt: 0, fullname: "Referral"},
+	"Direct": { x: 4, y: 460, cnt: 0 , fullname: "Direct"},
+	"Affiliate": { x: 4, y: 560, cnt: 0, fullname: "Affiliate"},
+	"Web Push": { x: 4, y: 660, cnt: 0, fullname: "Web Push"},
+	"O2O": { x: 4, y: 760, cnt: 0, fullname: "O2O"},
+	"Others": { x: 4, y: 860, cnt: 0, fullname: "Others"},
 	
-	"Homepage": { x: 480, y: 60, cnt: 0, fullname: "Homepage" },
-	"Product": { x: 220, y: 340, cnt: 0, fullname: "Product" },
-	"Other": { x: 780, y: 470, cnt: 0, fullname: "Other" },
-	"Category": { x: 330, y: 100, cnt: 0, fullname: "Category" },
-	"BlogContent": { x: 820, y: 340, cnt: 0, fullname: "Blog Content" },
-	"Cart": { x: 290, y: 470, cnt: 0, fullname: "Cart" },
-	"Checkout": {  x: 460, y: 540, cnt: 0, fullname: "Checkout" },
-	"Loyalty": { x: 810, y: 210, cnt: 0, fullname: "Loyalty" },
-	"MyAccount": { x: 750, y: 120, cnt: 0, fullname: "My Account" },
-	"Register": { x: 640, y: 60, cnt: 0, fullname: "Register" },
-	"SearchResult": { x: 210, y: 200, cnt: 0, fullname: "Search Result" },
-	"Left" : { x: 380, y: 20000, cnt: 0, fullname: "Left" },
-	"NULL" : { x: 640, y: 540, cnt: 0, fullname: "Order Placed" }
+	"Homepage": { x: 500, y: 160, cnt: 0, fullname: "Homepage" },
+	"Product": { x: 240, y: 480, cnt: 0, fullname: "Product" },
+	"Other": { x: 810, y: 580, cnt: 0, fullname: "Other" },
+	"Category": { x: 330, y: 220, cnt: 0, fullname: "Category" },
+	"BlogContent": { x: 860, y: 460, cnt: 0, fullname: "Blog Content" },
+	"Cart": { x: 310, y: 590, cnt: 0, fullname: "Cart" },
+	"Checkout": {  x: 460, y: 670, cnt: 0, fullname: "Checkout" },
+	"Loyalty": { x: 850, y: 340, cnt: 0, fullname: "Loyalty" },
+	"MyAccount": { x: 780, y: 240, cnt: 0, fullname: "My Account" },
+	"Register": { x: 660, y: 160, cnt: 0, fullname: "Register" },
+	"SearchResult": { x: 230, y: 340, cnt: 0, fullname: "Search Result" },
+	"Left" : { x: 400, y: 20000, cnt: 0, fullname: "Left" },
+	"NULL" : { x: 670, y: 670, cnt: 0, fullname: "Order Placed" }
 	
 };
 
 const member_tiers = {
 
 	"Elite": { color: "#FF839A", cnt: 0 },
-	"anonymous": { color: "#ECECEC", cnt: 0 },
+	"anonymous": { color: "#C0C0C0", cnt: 0 },
 	"Member": {color: "#83FFEE", cnt: 0},
 	"eshopper": {color: "#FDFF83", cnt: 0}
 
@@ -281,9 +296,10 @@ d3.csv("data/Book1.csv", function(error, data) {
 											'duration': d.page_duration, 
 											'member_tier': d.member_tier, 
 											'start_time': /*d.tstamp*/d.session_start_time,
+											'medium':d.medium,
 											'p_personal_care': d.p_personal_care,
 											'p_skincare': d.p_skincare,
-										/*	'p_cosmetics': d.p_cosmetics,
+											'p_cosmetics': d.p_cosmetics,
 											'p_health_care': d.p_health_care,
 											'p_body_hair_care': d.p_body_hair_care,
 											'p_sport': d.p_sport,
@@ -302,7 +318,7 @@ d3.csv("data/Book1.csv", function(error, data) {
 											'b_other': d.b_other,
 											'b_derma': d.b_derma,
 											'b_watsons_brand': d.b_watsons_brand,
-											'b_bulk_buy': d.b_bulk_buy,*/
+											'b_bulk_buy': d.b_bulk_buy,
 											});
         } else {
 //            sched_objs[d.userid+""] = [{'userid': d.userid, 'act': d.pagetype, 'duration': d.page_duration, 'member_tier': d.member_tier, 'start_time': d.start_time}];
@@ -311,9 +327,10 @@ d3.csv("data/Book1.csv", function(error, data) {
 											'duration': Math.floor(d.page_duration), 
 											'member_tier': d.member_tier, 
 											'start_time': /*d.tstamp*/d.session_start_time,
+											'medium':d.medium,
 											'p_personal_care': d.p_personal_care,
 											'p_skincare': d.p_skincare,
-										/*	'p_cosmetics': p_cosmetics,
+											'p_cosmetics': d.p_cosmetics,
 											'p_health_care': d.p_health_care,
 											'p_body_hair_care': d.p_body_hair_care,
 											'p_sport': d.p_sport,
@@ -324,7 +341,7 @@ d3.csv("data/Book1.csv", function(error, data) {
 											'p_bulk_buy': d.p_bulk_buy,
 											'b_personal_care': d.b_personal_care,
 											'b_skincare': d.b_skincare,
-											'b_cosmetics': b_cosmetics,
+											'b_cosmetics': d.b_cosmetics,
 											'b_health_care': d.b_health_care,
 											'b_body_hair_care': d.b_body_hair_care,
 											'b_sport': d.b_sport,
@@ -332,7 +349,7 @@ d3.csv("data/Book1.csv", function(error, data) {
 											'b_other': d.b_other,
 											'b_derma': d.b_derma,
 											'b_watsons_brand': d.b_watsons_brand,
-											'b_bulk_buy': d.b_bulk_buy,	*/										
+											'b_bulk_buy': d.b_bulk_buy,											
 											}];
         }
     });
@@ -375,21 +392,96 @@ d3.csv("data/Book1.csv", function(error, data) {
 	for (var k in sched_objs){
 //		console.log(k)
 		d = sched_objs[k];
+		
+
+		
 //		console.log(d[0].userid,d[0].start_time, d[0].duration);
-		console.log(k)
+//		console.log(k)
 	
 		var act = d[0].act;
 		var init_time = d[0].start_time;
 	
-		var init_x = groups[act].x + Math.random();
-		var init_y = groups[act].y + Math.random();
+
 		var col = member_tiers[d[0].member_tier].color;
+		
+		var temp_medium = d[0].medium;
+		var medium = "Others";
+		
+		if (temp_medium == 'cpc')
+		{
+			medium = 'Paid Search';
+		}
+		else if (temp_medium == 'organic')
+		{
+			medium = 'Organic Search';
+		}
+		else if (temp_medium == 'social')
+		{
+			medium = 'Social';
+		}
+		else if (temp_medium == 'referral')
+		{
+			medium = 'Referral';
+		}
+		else if (temp_medium == 'NULL')
+		{
+			medium = 'Direct';
+		}
+		else if (temp_medium == 'affiliate')
+		{
+			medium = "Affiliate";
+		}
+		else if (temp_medium == 'web_push')
+		{
+			medium = "Web Push";
+		}
+		else if (temp_medium.match(/sms/g) != null)
+		{
+			medium = "O2O";
+		}
+		
+		d.unshift({'userid': d[0].userid,
+			'act': medium, 
+			'duration': 60, 
+			'member_tier': d[0].member_tier, 
+			'start_time': /*d.tstamp*/init_time,
+			'medium':medium,
+			'p_personal_care': d[0].p_personal_care,
+			'p_skincare': d[0].p_skincare,
+			'p_cosmetics': d[0].p_cosmetics,
+			'p_health_care': d[0].p_health_care,
+			'p_body_hair_care': d[0].p_body_hair_care,
+			'p_sport': d[0].p_sport,
+			'p_men': d[0].p_men,
+			'p_other': d[0].p_other,
+			'p_derma': d[0].p_derma,
+			'p_watsons_brand': d[0].p_watsons_brand,
+			'p_bulk_buy': d[0].p_bulk_buy,
+			'b_personal_care': d[0].b_personal_care,
+			'b_skincare': d[0].b_skincare,
+			'b_cosmetics': d[0].b_cosmetics,
+			'b_health_care': d[0].b_health_care,
+			'b_body_hair_care': d[0].b_body_hair_care,
+			'b_sport': d[0].b_sport,
+			'b_men': d[0].b_men,
+			'b_other': d[0].b_other,
+			'b_derma': d[0].b_derma,
+			'b_watsons_brand': d[0].b_watsons_brand,
+			'b_bulk_buy': d[0].b_bulk_buy,	})
 	
 	//	groups[act].cnt += 1;
+/*
+		var init_x = groups[act].x + Math.random();
+		var init_y = groups[act].y + Math.random();
+*/	
+		var init_x = groups[medium].x + Math.random();
+		var init_y = groups[medium].y + Math.random();
+		
+		console.log(d[0])
 		
 		nodes.push({
 			userid: d[0].userid,
-			act: act,
+			act: medium,
 			radius: maxRadius,
 			x: init_x,
 			y: init_y,
@@ -402,12 +494,34 @@ d3.csv("data/Book1.csv", function(error, data) {
 			leave: 0,
 			exist: 0,
 			member_tier: d[0].member_tier,
+			medium: medium,
 			p_personal_care: d[0].p_personal_care,
-			p_skincare: d[0].p_skincare
+			p_skincare: d[0].p_skincare,
+			p_cosmetics: d[0].p_cosmetics,
+			p_health_care: d[0].p_health_care,
+			p_body_hair_care: d[0].p_body_hair_care,
+			p_sport: d[0].p_sport,
+			p_men: d[0].p_men,
+			p_other: d[0].p_other,
+			p_derma: d[0].p_derma,
+			p_watsons_brand: d[0].p_watsons_brand,
+			p_bulk_buy: d[0].p_bulk_buy,
+			b_personal_care: d[0].b_personal_care,
+			b_skincare: d[0].b_skincare,
+			b_cosmetics: d[0].b_cosmetics,
+			b_health_care: d[0].b_health_care,
+			b_body_hair_care: d[0].b_body_hair_care,
+			b_sport: d[0].b_sport,
+			b_men: d[0].b_men,
+			b_other: d[0].b_other,
+			b_derma: d[0].b_derma,
+			b_watsons_brand: d[0].b_watsons_brand,
+			b_bulk_buy: d[0].b_bulk_buy,
 		})
 	
 	}
 	
+	console.log(nodes)
 	
 	var curr_nodes = [];
 
@@ -415,27 +529,30 @@ d3.csv("data/Book1.csv", function(error, data) {
 //	console.log(data)
 	nodes.forEach(d => {
 //		console.log(d.sched[0].start_time)
-		console.log(d.userid)
 
       if (d.sched[0].start_time == data[0]./*tstamp*/session_start_time) {
-			
+			console.log(d.sched[0])
 			d.exist = 1;
 			d.leave = -1;
-			if (d.act == "Other")
+/*			if (d.act == "Other")
 			{
 			//console.log(d.sched[1])
 				try{d.act = d.sched[1].act;}
 				catch(err){}
 			}
-			curr_nodes.push(d);
+*/			
+//			console.log(d)
 				
 //				console.log(d);
 			if (d.color != "transparent")
 			{
+//				groups[d.act].cnt += 1;
 				groups[d.act].cnt += 1;
 				member_tiers[d.member_tier].cnt += 1;
 				d.stroke = "green";
 			}
+			curr_nodes.push(d);
+//			console.log(d.medium)
 //			nodes.pop(d);
         } 
 
@@ -585,10 +702,10 @@ d3.csv("data/Book1.csv", function(error, data) {
 
 		curr_date = "02/07/2020"
 
-		console.log(data[0])
-		console.log(data[0]./*tstamp*/session_start_time)
+//		console.log(data[0])
+//		console.log(data[0]./*tstamp*/session_start_time)
 		d3.select("#current_date").text(curr_date);
-		console.log("test")
+//		console.log("test")
 
 		
 
@@ -603,7 +720,7 @@ d3.csv("data/Book1.csv", function(error, data) {
 	
 		// Update nodes based on activity and duration
 	function timer() {
-			d3.select("#test").text("test "+document.getElementById("list_input").value)
+//			d3.select("#test").text("test "+document.getElementById("list_input").value)
 		prod_cat_selected = document.getElementById("list_input").value;
 //		 console.log(nodes);
 
@@ -617,8 +734,8 @@ d3.csv("data/Book1.csv", function(error, data) {
 //			console.log(nodes);
 		if (org_prod_cat != prod_cat_selected)
 		{
-	//	console.log(org_prod_cat)
-	//	console.log(prod_cat_selected)
+//		console.log(org_prod_cat)
+//		console.log(prod_cat_selected)
 			filter_reset(curr_nodes[i]);
 			if (prod_cat_selected == "p_personal_care")
 			{
@@ -631,7 +748,6 @@ d3.csv("data/Book1.csv", function(error, data) {
 			
 			else if (prod_cat_selected == "p_skincare")
 			{
-		console.log(curr_nodes[i].p_skincare)
 				if (curr_nodes[i].p_skincare == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
@@ -639,7 +755,168 @@ d3.csv("data/Book1.csv", function(error, data) {
 					}
 			}
 			
+			else if (prod_cat_selected == "p_cosmetics")
+			{
+				if (curr_nodes[i].p_cosmetics == "N")
+					{
+						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
 
+					}
+			}
+			
+			else if (prod_cat_selected == "p_body_hair_care")
+			{
+				if (curr_nodes[i].p_body_hair_care == "N")
+					{
+						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
+
+					}
+			}
+			
+			else if (prod_cat_selected == "p_sport")
+			{
+				if (curr_nodes[i].p_sport == "N")
+					{
+						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
+
+					}
+			}			
+			
+			else if (prod_cat_selected == "p_men")
+			{
+				if (curr_nodes[i].p_men == "N")
+					{
+						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
+
+					}
+			}	
+
+			else if (prod_cat_selected == "p_other")
+			{
+				if (curr_nodes[i].p_other == "N")
+					{
+						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
+
+					}
+			}	
+
+			else if (prod_cat_selected == "p_derma")
+			{
+				if (curr_nodes[i].p_derma == "N")
+					{
+						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
+
+					}
+			}	
+
+			else if (prod_cat_selected == "p_watsons_brand")
+			{
+				if (curr_nodes[i].p_watsons_brand == "N")
+					{
+						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
+
+					}
+			}
+
+			else if (prod_cat_selected == "p_bulk_buy")
+			{
+				if (curr_nodes[i].p_bulk_buy == "N")
+					{
+						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
+
+					}
+			}	
+
+			else if (prod_cat_selected == "b_personal_care")
+			{
+				if (curr_nodes[i].b_personal_care == "N")
+					{
+						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
+
+					}
+			}	
+
+			else if (prod_cat_selected == "b_skincare")
+			{
+				if (curr_nodes[i].b_skincare == "N")
+					{
+						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
+
+					}
+			}	
+
+			else if (prod_cat_selected == "b_cosmetics")
+			{
+				if (curr_nodes[i].b_cosmetics == "N")
+					{
+						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
+
+					}
+			}	
+
+			else if (prod_cat_selected == "b_body_hair_care")
+			{
+				if (curr_nodes[i].b_body_hair_care == "N")
+					{
+						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
+
+					}
+			}	
+
+			else if (prod_cat_selected == "b_sport")
+			{
+				if (curr_nodes[i].b_sport == "N")
+					{
+						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
+
+					}
+			}	
+
+			else if (prod_cat_selected == "b_men")
+			{
+				if (curr_nodes[i].b_men == "N")
+					{
+						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
+
+					}
+			}
+
+			else if (prod_cat_selected == "b_other")
+			{
+				if (curr_nodes[i].b_other == "N")
+					{
+						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
+
+					}
+			}
+
+			else if (prod_cat_selected == "b_derma")
+			{
+				if (curr_nodes[i].b_derma == "N")
+					{
+						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
+
+					}
+			}
+
+			else if (prod_cat_selected == "b_watsons_brand")
+			{
+				if (curr_nodes[i].b_watsons_brand == "N")
+					{
+						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
+
+					}
+			}	
+
+			else if (prod_cat_selected == "b_bulk_buy")
+			{
+				if (curr_nodes[i].b_bulk_buy == "N")
+					{
+						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
+
+					}
+			}
+			
 		}
 
 //		d3.select("#test").text("test "+document.getElementById("list_input").value)
@@ -654,13 +931,19 @@ d3.csv("data/Book1.csv", function(error, data) {
 		
 //		console.log(d)
 //		console.log(d.sched[0].start_time)
-			start_h = get_currDateTime(d.sched[0].start_time)[3].toString();
-			start_m = get_currDateTime(d.sched[0].start_time)[4].toString();
-			curr_h = minutesToTime(curr_minute)[1].toString();
-			curr_m = minutesToTime(curr_minute)[2].toString();
-//			console.log(get_currDateTime(d.sched[0].start_time));
-	
-
+			start_h = get_currDateTime(d.sched[0].start_time)[3];
+			start_m = get_currDateTime(d.sched[0].start_time)[4];
+			curr_h = minutesToTime(curr_minute)[1];
+			curr_m = minutesToTime(curr_minute)[2];
+//			console.log(start_m)
+			if (start_m == "00")
+			{
+				start_m = 59;
+				start_h -= 1;
+			}
+			else {start_m -= 1}
+			
+//		console.log(start_h,start_m, minutesToTime(curr_minute))
 		  if (start_h == curr_h && start_m == curr_m) {
 //			console.log(start_h,curr_h)
 //			console.log(d)
@@ -685,12 +968,12 @@ d3.csv("data/Book1.csv", function(error, data) {
 					}
 			}
 	
-				console.log(curr_nodes);
-				console.log("new node");
-				console.log(d);
+//				console.log(curr_nodes);
+//				console.log("new node");
+//				console.log(d);
 //				console.log(curr_nodes);
 				d.exist = 1;
-				d.next_move_time += curr_minute;
+				d.next_move_time = curr_minute + 60;
 				curr_nodes.push(d);
 //				nodes.pop(d);
 //				n2 = d;
@@ -702,7 +985,7 @@ d3.csv("data/Book1.csv", function(error, data) {
 					d.stroke = "green";
 				}
 				
-				console.log(curr_nodes);
+//				console.log(curr_nodes);
 				
 //				force.nodes().push(d);
 
@@ -734,7 +1017,6 @@ d3.csv("data/Book1.csv", function(error, data) {
 
 
 			// Time to go to next activity
-
 			if (curr_nodes[i].next_move_time == curr_minute) {
 		
 				//console.log(curr_nodes[i].sched)
@@ -742,7 +1024,12 @@ d3.csv("data/Book1.csv", function(error, data) {
 				{
 					curr_nodes.leave = 0;
 				}
-				curr_nodes[i].stroke = "transparent";
+
+					if (! ["Paid Search", "Organic Search", "Social", "Referral", "Direct", "Affiliate", "Web Push", "O2O", "Others"].includes(curr_nodes[i].act))
+					{
+						curr_nodes[i].stroke = "transparent";
+					}
+					
 //				console.log(curr_nodes[i].moves, curr_nodes[i].sched.length-1)
 /*				if (curr_nodes[i].moves == curr_nodes[i].sched.length-1) {
 					curr_nodes[i].moves = 0;
@@ -763,21 +1050,24 @@ d3.csv("data/Book1.csv", function(error, data) {
 					if (curr_nodes[i].color != "transparent")
 					{
 						groups[curr_nodes[i].act].cnt -= 1;
+						member_tiers[curr_nodes[i].member_tier].cnt -= 1;
 					}
 	//				console.log("LEAVE")
 					curr_nodes[i].act = "Left";
 					if (curr_nodes[i].color != "transparent")
 					{
-						groups[curr_nodes[i].act].cnt += 1;
+	//					groups[curr_nodes[i].act].cnt += 1;
 					}
 					curr_nodes[i].next_move_time = curr_minute - 10;
 					curr_nodes[i].exist = -1;
 	//				console.log(curr_nodes[i].member_tier)
 	//				console.log(member_tiers[curr_nodes[i].member_tier].cnt)
+	/*
 					if (curr_nodes[i].color != "transparent")
 					{
-					member_tiers[curr_nodes[i].member_tier].cnt -= 1;
+						member_tiers[curr_nodes[i].member_tier].cnt -= 1;
 					}
+	*/
 				//	curr_nodes = curr_nodes.splice(i,1);
 				}
 				
@@ -792,22 +1082,26 @@ d3.csv("data/Book1.csv", function(error, data) {
 	//				console.log(curr_nodes[i].act)
 	//				console.log(curr_nodes[i].moves)
 	//				console.log(curr_nodes[i].next_move_time)
-					
-					if (curr_nodes[i].sched[ curr_nodes[i].moves ].act != "Other")
-					{
+//					console.log(curr_nodes[i])
+	//				if (curr_nodes[i].sched[ curr_nodes[i].moves ].act != "Other")
+	//				{
+						var act = curr_nodes[i].sched[ curr_nodes[i].moves ].act
+						
 						if (curr_nodes[i].color != "transparent")
 						{
 							groups[curr_nodes[i].act].cnt -= 1;
 						}
-						curr_nodes[i].act = curr_nodes[i].sched[ curr_nodes[i].moves ].act;
+						curr_nodes[i].act = act;
 						if (curr_nodes[i].color != "transparent")
 						{
+//							console.log(curr_nodes[i])
 							groups[curr_nodes[i].act].cnt += 1;
 						}
 						
 	//					console.log(curr_nodes[i].act)
 	//					curr_nodes[i].moves += 1;
-					}
+	//				}
+	//				}
 					// Add to new activity count
 					// act_counts[curr_node.act] += 1;
 					//groups[curr_nodes[i].act].cnt += 1;
@@ -823,10 +1117,10 @@ d3.csv("data/Book1.csv", function(error, data) {
 					{
 						//curr_nodes[i].act = "Left";
 						//groups[curr_nodes[i].act].cnt += 1;
-						curr_nodes[i].next_move_time = curr_minute + 200;
+						curr_nodes[i].next_move_time = curr_minute + 60;
 						if (curr_nodes[i].color != "transparent")
 						{
-						curr_nodes[i].stroke = "red";
+							curr_nodes[i].stroke = "red";
 						}
 						
 						curr_nodes[i].leave = 1;
@@ -915,17 +1209,17 @@ d3.csv("data/Book1.csv", function(error, data) {
   
 	  // Push nodes toward their designated focus.
 	  curr_nodes.forEach(function(o, i) {
+
 		var curr_act = o.act;
         
         o.y += (groups[curr_act].y - o.y) * k;
         o.x += (groups[curr_act].x-width*.01 - o.x) * k ;
 
-        
 	  });
 
 	  circle
 	  	  .each(collide(.5))
-            // .style("fill", function(d) { return d.color; })
+          .style("fill", function(d) { return d.color; })
 	      .attr("cx", function(d) { return d.x; })
 	      .attr("cy", function(d) { return d.y; })
 		  .style("stroke", function(d) { return d.stroke; });
@@ -1017,8 +1311,8 @@ function filter_bubbles (node) {
 	console.log(node)
 		if (node.exist == 1)
 		{
-		console.log(node)
-		console.log(node.color)
+//		console.log(node)
+//		console.log(node.color)
 				groups[node.act].cnt -= 1;
 				member_tiers[node.member_tier].cnt -= 1;
 		}
