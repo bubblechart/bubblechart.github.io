@@ -19,11 +19,11 @@
 <div id="current_users" align="center">Elite: <span id = "elite">0</span> Member: <span id = "member">0</span> Eshopper: <span id="eshopper">0</span> Anonymous: <span id="anonymous">0</span></div>
 <div id="current_total_users" align="center">Total: 0</div>
 <div class="container">
-    <span class="choose">Select Member Types: </span>
+    <span class="choose">Select Member Type: </span>
   
     <div class="dropdown">
         <div class="select">
-          <span id = "selected">Select Member Types </span><span id="right_arrow">▼</span>
+          <span id = "selected">Select Member Type </span><span id="right_arrow">▼</span>
        
         </div>
         <input type="hidden" name="gender" id="list_input">
@@ -255,18 +255,18 @@ const groups = {
 	"Others": { x: 140, y: 600, cnt: 0, fullname: "Others"},
 	
 	"Homepage": { x: 900, y: 60, cnt: 0, fullname: "Homepage" },
-	"Product": { x: 760, y: 480, cnt: 0, fullname: "Product" },
-	"Other": { x: 1310, y: 520, cnt: 0, fullname: "Other" },
+	"Product": { x: 750, y: 450, cnt: 0, fullname: "Product" },
+	"Other": { x: 1320, y: 520, cnt: 0, fullname: "Other" },
 	"Category": { x: 780, y: 160, cnt: 0, fullname: "Category" },
 	"BlogContent": { x: 1370, y: 370, cnt: 0, fullname: "Blog Content" },
-	"Cart": { x: 860, y: 600, cnt: 0, fullname: "Cart" },
-	"Checkout": {  x: 1040, y: 660, cnt: 0, fullname: "Checkout" },
+	"Cart": { x: 820, y: 570, cnt: 0, fullname: "Cart" },
+	"Checkout": {  x: 1000, y: 660, cnt: 0, fullname: "Checkout" },
 	"Loyalty": { x: 1350, y: 220, cnt: 0, fullname: "Loyalty" },
 	"MyAccount": { x: 1270, y: 100, cnt: 0, fullname: "My Account" },
-	"Register": { x: 1100, y: 20, cnt: 0, fullname: "Register" },
-	"SearchResult": { x: 730, y: 320, cnt: 0, fullname: "Search Result" },
+	"Register": { x: 1100, y: 30, cnt: 0, fullname: "Register" },
+	"SearchResult": { x: 730, y: 290, cnt: 0, fullname: "Search Result" },
 	"Left" : { x: 850, y: 20000, cnt: 0, fullname: "Left" },
-	"NULL" : { x: 1210, y: 620, cnt: 0, fullname: "Order Placed" }
+	"NULL" : { x: 1200, y: 620, cnt: 0, fullname: "Order Placed" }
 	
 };
 
@@ -1259,7 +1259,7 @@ d3.csv("data/Book1.csv", function(error, data) {
 	  circle
 	  	  .each(collide(.5))
           .style("fill", function(d) { return d.color; })
-	      .attr("cx", function(d) { return d.x; })
+	      .attr("cx", function(d) { return d.x+10; })
 	      .attr("cy", function(d) { return d.y; })
 		  .style("stroke", function(d) { return d.stroke; });
 		  
