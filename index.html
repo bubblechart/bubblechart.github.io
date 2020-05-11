@@ -12,6 +12,7 @@
 	
 	<div id="sidebar">
 <!--<div id="test">testint</div>-->
+
 <div id="current_date">07/02/2020</div>
 <div id="current_time">time</div>
 <div align="center">Current Online Users:</div>
@@ -28,10 +29,10 @@
         <input type="hidden" name="gender" id="list_input">
         <ul class="dropdown-menu" id="list">
 		 <li id="all">All</li>
-          <li id="p_personal_care">p_Personal Care</li>
-          <li id="p_skincare">p_Skincare</li>
+ <!--         <li id="p_personal_care">p_Personal Care</li>
+          <li id="p_skincare">p_Skincare</li>	-->
 		  <li id="p_cosmetics">p_Cosmetics</li>
-		  <li id="p_body_hair_care">p_Boday Hair Care</li>
+<!--		  <li id="p_body_hair_care">p_Boday Hair Care</li>
 		  <li id="p_sport">p_Sport</li>
 		  <li id="p_men">p_Men</li>
 		  <li id="p_other">p_Other</li>
@@ -39,15 +40,15 @@
 		  <li id="p_watsons_brand">p_Watsons Brand</li>
 		  <li id="p_bulk_buy">p_Bulk Buy</li>
 		  <li id="b_personal_care">b_Personal Care</li>
-          <li id="b_skincare">b_Skincare</li>
+          <li id="b_skincare">b_Skincare</li>	-->
 		  <li id="b_cosmetics">b_Cosmetics</li>
-		  <li id="b_body_hair_care">b_Boday Hair Care</li>
+<!--		  <li id="b_body_hair_care">b_Boday Hair Care</li>
 		  <li id="b_sport">b_Sport</li>
 		  <li id="b_men">b_Men</li>
 		  <li id="b_other">b_Other</li>
 		  <li id="b_derma">b_Derma</li>
 		  <li id="b_watsons_brand">b_Watsons Brand</li>
-		  <li id="b_bulk_buy">b_Bulk Buy</li>
+		  <li id="b_bulk_buy">b_Bulk Buy</li>		-->
         </ul>
 	
       </div>
@@ -63,7 +64,7 @@
 
 <div class="clr"></div>
 </div>
-<div id="note"></div>
+<div id="note" style="text-align:center;"></div>
 </div>
 	
 	
@@ -100,7 +101,7 @@ var temp;
 $('.dropdown-menu li').click(function () {
   var input = '<strong>' + $(this).parents('.dropdown').find('input').val() + '</strong>',
   temp = $(this).parents('.dropdown').find('input').val();
-      msg = '<span class="msg">Selected Channel: ';
+      msg = '<span class="msg">Channel Selected: ';
   $('.msg').html(msg + input + '</span>');
   console.log(document.getElementById("list_input").value)
  
@@ -142,73 +143,95 @@ var	sched_objs = {},
 //const svg = d3.select("#chart").append("svg")
 //    .attr("width", width + margin.left + margin.right)
 const svg = d3.select("#chart").append("svg")
-	.attr("width", 1000)		
+	.attr("width", 1700)		
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.select("#chart").style("width", (width+margin.left+margin.right)+"px");
+//d3.select("#chart").style("width", (width+margin.left+margin.right)+"px");
 
 
+const background_left = svg.append("rect")
+						.attr("x", -500)
+						.attr("y", -50)
+						.attr("width", 1000)
+						.attr("height", height + margin.top + margin.bottom)
+						.style("fill", "#E9FFB7")
+						
+const background_right = svg.append("rect")
+						.attr("x", 500)
+						.attr("y", -50)
+						.attr("width", "100%")
+						.attr("height", height + margin.top + margin.bottom)
+						.style("fill", "#6CADD3")																
 
+// Circle background
+/*
+svg.append("circle").attr("cx",1050).attr("cy",350).attr("r",320)
+  .style("fill", "#69b3a2");						
+*/
 // Legends
 
+const legned_svg = d3.select("#note").append("svg")
+	.attr("width", 1000)		
+    .attr("height", 50)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-
- svg.append("circle")
+ legned_svg.append("circle")
 // svg.append("circle")
-	.attr("cx", 180)
+	.attr("cx", 200)
 	.attr("cy", -30)
 	.attr("r", 10)
 	.attr("fill", "#FF839A");
 	
-		svg.append("text")
+		legned_svg.append("text")
 //	svg.append("text")
-		.attr("x", 195)
+		.attr("x", 215)
 		.attr("y", -25)
 		.text(": Elite")
 		.attr("font-family", "sans-serif")
 		.attr("font-size", "15px");
-	svg.append("circle")	
+	legned_svg.append("circle")	
 // svg.append("circle")
-	.attr("cx", 300)
+	.attr("cx", 320)
 	.attr("cy", -30)
 	.attr("r", 10)
 	.attr("fill", "#83FFEE");
 	
-	svg.append("text")
+	legned_svg.append("text")
 //	svg.append("text")
-		.attr("x", 315)
+		.attr("x", 335)
 		.attr("y", -25)
 		.text(": Member")
 		.attr("font-family", "sans-serif")
 		.attr("font-size", "15px");
 		
-	svg.append("circle")	
+	legned_svg.append("circle")	
 //svg.append("circle")
-	.attr("cx", 420)
+	.attr("cx", 440)
 	.attr("cy", -30)
 	.attr("r", 10)
 	.attr("fill", "#FDFF83");
 	
-	svg.append("text")	
+	legned_svg.append("text")	
 //	svg.append("text")
-		.attr("x", 435)
+		.attr("x", 455)
 		.attr("y", -25)
 		.text(": Eshopper")
 		.attr("font-family", "sans-serif")
 		.attr("font-size", "15px");
 		
-svg.append("circle")		
+legned_svg.append("circle")		
 //svg.append("circle")
-	.attr("cx", 540)
+	.attr("cx", 560)
 	.attr("cy", -30)
 	.attr("r", 10)
-	.attr("fill", "#C0C0C0");
+	.attr("fill", "#E7E7E7");
 	
-	svg.append("text")	
+	legned_svg.append("text")	
 //	svg.append("text")
-		.attr("x", 555)
+		.attr("x", 575)
 		.attr("y", -25)
 		.text(": Anonymous")
 		.attr("font-family", "sans-serif")
@@ -221,40 +244,42 @@ svg.append("circle")
 
 const groups = {
 
-	"Paid Search": { x: 4, y: 60, cnt: 0, fullname: "Paid Search"},
-	"Organic Search": { x: 4, y: 160, cnt: 0 , fullname: "Organic Search"},
-	"Social": { x: 4, y: 260, cnt: 0, fullname: "Social"},
-	"Referral": { x: 4, y: 360, cnt: 0, fullname: "Referral"},
-	"Direct": { x: 4, y: 460, cnt: 0 , fullname: "Direct"},
-	"Affiliate": { x: 4, y: 560, cnt: 0, fullname: "Affiliate"},
-	"Web Push": { x: 4, y: 660, cnt: 0, fullname: "Web Push"},
-	"O2O": { x: 4, y: 760, cnt: 0, fullname: "O2O"},
-	"Others": { x: 4, y: 860, cnt: 0, fullname: "Others"},
+	"Paid Search": { x: 140, y: 60, cnt: 0, fullname: "Paid Search"},
+	"Organic Search": { x: 280, y: 140, cnt: 0 , fullname: "Organic Search"},
+	"Social": { x: 140, y: 220, cnt: 0, fullname: "Social"},
+	"Referral": { x: 280, y: 280, cnt: 0, fullname: "Referral"},
+	"Direct": { x: 140, y: 340, cnt: 0 , fullname: "Direct"},
+	"Affiliate": { x: 280, y: 420, cnt: 0, fullname: "Affiliate"},
+	"Web Push": { x: 140, y: 480, cnt: 0, fullname: "Web Push"},
+	"O2O": { x: 280, y: 540, cnt: 0, fullname: "O2O"},
+	"Others": { x: 140, y: 600, cnt: 0, fullname: "Others"},
 	
-	"Homepage": { x: 500, y: 160, cnt: 0, fullname: "Homepage" },
-	"Product": { x: 240, y: 480, cnt: 0, fullname: "Product" },
-	"Other": { x: 810, y: 580, cnt: 0, fullname: "Other" },
-	"Category": { x: 330, y: 220, cnt: 0, fullname: "Category" },
-	"BlogContent": { x: 860, y: 460, cnt: 0, fullname: "Blog Content" },
-	"Cart": { x: 310, y: 590, cnt: 0, fullname: "Cart" },
-	"Checkout": {  x: 460, y: 670, cnt: 0, fullname: "Checkout" },
-	"Loyalty": { x: 850, y: 340, cnt: 0, fullname: "Loyalty" },
-	"MyAccount": { x: 780, y: 240, cnt: 0, fullname: "My Account" },
-	"Register": { x: 660, y: 160, cnt: 0, fullname: "Register" },
-	"SearchResult": { x: 230, y: 340, cnt: 0, fullname: "Search Result" },
-	"Left" : { x: 400, y: 20000, cnt: 0, fullname: "Left" },
-	"NULL" : { x: 670, y: 670, cnt: 0, fullname: "Order Placed" }
+	"Homepage": { x: 900, y: 60, cnt: 0, fullname: "Homepage" },
+	"Product": { x: 760, y: 480, cnt: 0, fullname: "Product" },
+	"Other": { x: 1310, y: 520, cnt: 0, fullname: "Other" },
+	"Category": { x: 780, y: 160, cnt: 0, fullname: "Category" },
+	"BlogContent": { x: 1370, y: 370, cnt: 0, fullname: "Blog Content" },
+	"Cart": { x: 860, y: 600, cnt: 0, fullname: "Cart" },
+	"Checkout": {  x: 1040, y: 660, cnt: 0, fullname: "Checkout" },
+	"Loyalty": { x: 1350, y: 220, cnt: 0, fullname: "Loyalty" },
+	"MyAccount": { x: 1270, y: 100, cnt: 0, fullname: "My Account" },
+	"Register": { x: 1100, y: 20, cnt: 0, fullname: "Register" },
+	"SearchResult": { x: 730, y: 320, cnt: 0, fullname: "Search Result" },
+	"Left" : { x: 850, y: 20000, cnt: 0, fullname: "Left" },
+	"NULL" : { x: 1210, y: 620, cnt: 0, fullname: "Order Placed" }
 	
 };
 
 const member_tiers = {
 
 	"Elite": { color: "#FF839A", cnt: 0 },
-	"anonymous": { color: "#C0C0C0", cnt: 0 },
+	"anonymous": { color: "#E7E7E7", cnt: 0 },
 	"Member": {color: "#83FFEE", cnt: 0},
 	"eshopper": {color: "#FDFF83", cnt: 0}
 
 };
+
+
 
 var layer1 = svg.append('g');
 var layer2 = svg.append('g');
@@ -737,6 +762,7 @@ d3.csv("data/Book1.csv", function(error, data) {
 //		console.log(org_prod_cat)
 //		console.log(prod_cat_selected)
 			filter_reset(curr_nodes[i]);
+/*			
 			if (prod_cat_selected == "p_personal_care")
 			{
 				if (curr_nodes[i].p_personal_care == "N")
@@ -756,6 +782,8 @@ d3.csv("data/Book1.csv", function(error, data) {
 			}
 			
 			else if (prod_cat_selected == "p_cosmetics")
+			*/
+			if (prod_cat_selected == "p_cosmetics")
 			{
 				if (curr_nodes[i].p_cosmetics == "N")
 					{
@@ -763,7 +791,7 @@ d3.csv("data/Book1.csv", function(error, data) {
 
 					}
 			}
-			
+/*			
 			else if (prod_cat_selected == "p_body_hair_care")
 			{
 				if (curr_nodes[i].p_body_hair_care == "N")
@@ -844,7 +872,7 @@ d3.csv("data/Book1.csv", function(error, data) {
 
 					}
 			}	
-
+*/
 			else if (prod_cat_selected == "b_cosmetics")
 			{
 				if (curr_nodes[i].b_cosmetics == "N")
@@ -853,7 +881,7 @@ d3.csv("data/Book1.csv", function(error, data) {
 
 					}
 			}	
-
+/*
 			else if (prod_cat_selected == "b_body_hair_care")
 			{
 				if (curr_nodes[i].b_body_hair_care == "N")
@@ -916,7 +944,7 @@ d3.csv("data/Book1.csv", function(error, data) {
 
 					}
 			}
-			
+*/			
 		}
 
 //		d3.select("#test").text("test "+document.getElementById("list_input").value)
@@ -1133,17 +1161,28 @@ d3.csv("data/Book1.csv", function(error, data) {
 			}
 
 
-
-					
-
 									
 
 				force.start();
 
 		}
+			
+				
 		
 		
 );
+
+	//		curr_nodes = curr_nodes.filter(function(node) { return node.next_move_time>curr_minute});
+
+
+		for (var i =curr_nodes.length - 1; i >= 0; --i) {
+		if (curr_nodes[i].next_move_time < curr_minute) {
+			console.log(curr_nodes[i])
+			curr_nodes.splice(i,1);
+			}
+		}
+	
+//	console.log(groups["Left"].cnt);
 
 		force.resume();
 		curr_minute += 1;
@@ -1226,7 +1265,7 @@ d3.csv("data/Book1.csv", function(error, data) {
 		  
 
 	}
-	
+
 		// Resolve collisions between nodes.
 	function collide(alpha) {
 	  var quadtree = d3.geom.quadtree(curr_nodes);
@@ -1328,6 +1367,8 @@ function filter_bubbles (node) {
 
 	return node;
 }
+
+
 
 function get_currDateTime (d) {	
 	
