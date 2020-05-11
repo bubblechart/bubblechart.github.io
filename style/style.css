@@ -25,6 +25,7 @@
 
 
 
+
 body {
     font-family: 'Inconsolata', Monaco, "Lucida Console", Consolas, "Courier New";
 /*    background: #58585B;*/
@@ -35,8 +36,8 @@ a {
     color: #000;
 }
 #main-wrapper {
-    max-width: 800px;
-    margin: 10px auto;
+ /*   max-width: 800px; */
+    margin: 0px ;
 }
 #header {
     margin-bottom: 10px;
@@ -112,6 +113,10 @@ h3 {
 	margin: 0.6em;
 }
 
+#current_date	{
+	padding-top: 20px;
+}
+
 #current_time, #current_date {
 	font-size: 3.5rem;sss
 	color: #000;
@@ -167,7 +172,10 @@ h3 {
 	line-height: 1.4em;
 	width: 259px;
 }
-
+#note{
+	display: block;
+	margin: auto;
+}
 
 
 /* Chart
@@ -175,8 +183,9 @@ h3 {
 
 #chart {
     z-index: -1;
-    position: relative;
-	margin: -80px;
+ /*   position: relative;*/
+	display: block;
+	margin: auto;
 }
 
 @media only screen and (min-width: 601px) {
