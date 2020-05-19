@@ -116,6 +116,7 @@ var USER_SPEED = "medium";
 var speeds = { "slow": 1200, "medium": 400, "fast": 50 };
 var simtimer;
 
+var day_update = 0;
 var curr_date;
 
 var margin = {top: 70, right: 60, bottom: 70, left: 10};
@@ -1414,7 +1415,7 @@ function get_currDateTime (d) {
 	
 // Minutes to time of day. Data is minutes from 4am.
 function minutesToTime(s) {
-//	console.log(s)
+
 	d = curr_date;
 
 //	var seconds = s % 1440;
@@ -1423,15 +1424,54 @@ function minutesToTime(s) {
 
 //	var hh = Math.floor(seconds/60 / 60);
 	var ampm;
-	
+
 	var hh = Math.floor(s/3600);
 //	console.log(hh)
 	var mm = Math.floor(s/60) - (hh * 60);
 //	console.log(mm)
+
+	var ss = seconds % 60;
 	
-	if (hh > 12) {
+	
+
+	if (hh >= 24)
+	{
+			if (s == 86400 && date_update == 0)
+				{
+					
+
+					date_update = 1
+					var date = d3.select("#current_date").text();
+					date = date.split('/');
+					var day = parseInt(date[0], 10);
+					var year = date[2];
+					var month = date[1];
+					day += 1;
+					if (day < 10){
+						day = "0" + day;
+					}
+					var new_date = day + '/' + month + '/' + year;
+	//				console.log(new_date);
+					d3.select("#current_date").text(new_date);
+					
+				}
+		if (hh%24 == 0)
+		{
+				hh = "0";
+				ampm = "am";
+//				console.log(mm,ss)
+		
+
+		}
+
+	else
+		hh = hh/24;
+
+	}
+	else if (hh > 12) {
 		hh = hh - 12;
 		ampm = "pm";
+		
 	} else if (hh == 12) {
 		ampm = "pm";
 	} else if (hh == 0) {
@@ -1440,25 +1480,27 @@ function minutesToTime(s) {
 	} else {
 		ampm = "am";
 	}
-	
-	var ss = seconds % 60;
+
+
 	if (ss<10) {
 		ss = "0" + ss;
 	}
-	
+
 	if (hh<10) {
 		hh = "0" + hh;
 	}
-	
+
 //	var mm = minutes % 60;
-	
-	
+
+
 	if (mm < 10) {
 		mm = "0" + mm;
 	}
-	
+
 
 	t = " " + hh + ":" + mm + ":" + ss + ampm;
+	
+
 
 	return [d.toString(), hh.toString(), mm.toString(), ss.toString(), ampm.toString()];
 }
