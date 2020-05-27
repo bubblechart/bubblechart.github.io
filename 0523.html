@@ -1223,6 +1223,7 @@ d3.csv("data/data0523.csv", function(error, data) {
 //				console.log(d);
 //				console.log(curr_nodes);
 				d.exist = 1;
+				d.leave = -1;
 				d.next_move_time = curr_minute + 60;
 				curr_nodes.push(d);
 //				nodes.pop(d);
