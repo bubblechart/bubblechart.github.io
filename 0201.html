@@ -142,7 +142,7 @@ var	sched_objs = {},
 // var sched_objs = [],
 //	curr_minute = 0;
 //	curr_minute = 79200 - 60;
-	curr_minute = 43200;
+	curr_minute = 43200 - 60;
 
 //const svg = d3.select("#chart").append("svg")
 //    .attr("width", width + margin.left + margin.right)
@@ -555,36 +555,7 @@ d3.csv("data/data0201.csv", function(error, data) {
 
 	
 //	console.log(data)
-	nodes.forEach(d => {
-//		console.log(d.sched[0].start_time)
 
-      if (d.sched[0].start_time == data[0]./*tstamp*/session_start_time) {
-			console.log(d.sched[0])
-			d.exist = 1;
-			d.leave = -1;
-/*			if (d.act == "Other")
-			{
-			//console.log(d.sched[1])
-				try{d.act = d.sched[1].act;}
-				catch(err){}
-			}
-*/			
-//			console.log(d)
-				
-//				console.log(d);
-			if (d.color != "transparent")
-			{
-//				groups[d.act].cnt += 1;
-				groups[d.act].cnt += 1;
-				member_tiers[d.member_tier].cnt += 1;
-				d.stroke = "green";
-			}
-			curr_nodes.push(d);
-//			console.log(d.medium)
-//			nodes.pop(d);
-        } 
-
-    });
 	console.log(nodes);
 //	console.log(member_tiers.eshopper.cnt);
 //	curr_nodes = nodes.filter(function(d){ return d.sched[0].start_time == data[0].start_time } );
