@@ -1304,14 +1304,15 @@ d3.csv("data/data0523.csv", function(error, data) {
 			if (curr_nodes[i].next_move_time == curr_minute) {
 
 				//console.log(curr_nodes[i].sched)
-				if (curr_nodes.leave != 1)
-				{
-					curr_nodes.leave = 0;
-				}
+
 
 					if (! ["Paid Search", "Organic Search", "Social", "Referral", "Direct", "Affiliate", "Web Push", "O2O", "Others"].includes(curr_nodes[i].act))
 					{
 						curr_nodes[i].stroke = "transparent";
+										if (curr_nodes.leave != 1)
+				{
+					curr_nodes.leave = 0;
+				}
 					}
 
 //				console.log(curr_nodes[i].moves, curr_nodes[i].sched.length-1)
