@@ -30,7 +30,7 @@
         <ul class="dropdown-menu" id="list">
 		 <li id="all">All</li>
          <li id="p_personal_care">p_Personal Care</li>
-<!--          <li id="p_skincare">p_Skincare</li>	
+ <!--          <li id="p_skincare">p_Skincare</li>	
 		  <li id="p_cosmetics">p_Cosmetics</li>
 		<li id="p_health_care">p_Health Care</li>
 		  <li id="p_body_hair_care">p_Body Hair Care</li>
@@ -41,7 +41,7 @@
 		  <li id="p_watsons_brand">p_Watsons Brand</li>
 		  <li id="p_bulk_buy">p_Bulk Buy</li>-->
 		  <li id="b_personal_care">b_Personal Care</li>
-<!--          <li id="b_skincare">b_Skincare</li>	
+  <!--         <li id="b_skincare">b_Skincare</li>	
 		  <li id="b_cosmetics">b_Cosmetics</li>
 			<li id="b_health_care">b_Health Care</li>
 		  <li id="b_body_hair_care">b_Body Hair Care</li>
@@ -395,7 +395,6 @@ d3.csv("data/data0201.csv", function(error, data) {
 		var init_x = groups[act].x + Math.random();
 		var init_y = groups[act].y + Math.random();
 		var col = member_tiers[o[0].member_tier].color;
-
 	//	groups[act].cnt += 1;
 		
 		return {
@@ -632,7 +631,6 @@ d3.csv("data/data0201.csv", function(error, data) {
 				.data(curr_nodes)
 			  .enter().append("circle")
 				.attr("r", function(d) { return d.radius; })
-
 		.style("fill", function(d) { return d.color; })
 		.style("stroke", function(d) { return d.stroke; });
 	//	 .call(force.drag); 
@@ -680,8 +678,6 @@ d3.csv("data/data0201.csv", function(error, data) {
       .data(d3.keys(groups))
 	        .enter().append("g")
           .attr("class", "cntlabel")
-
-
 		  
 		  cntlabel.append("text")
 		  .attr("class", "cnt")
@@ -693,9 +689,6 @@ d3.csv("data/data0201.csv", function(error, data) {
 			.style("font-weight", "bold")
           .text(d => groups[d].cnt);	
 //	console.log(sched_objs)	
-
-
-
 */
 	
 	// Count labels
@@ -772,7 +765,6 @@ d3.csv("data/data0201.csv", function(error, data) {
 				if (curr_nodes[i].p_personal_care == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
 			}
 /*			
@@ -781,7 +773,6 @@ d3.csv("data/data0201.csv", function(error, data) {
 				if (curr_nodes[i].p_skincare == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
 			}
 			
@@ -792,10 +783,9 @@ d3.csv("data/data0201.csv", function(error, data) {
 				if (curr_nodes[i].p_cosmetics == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
 			}
-		
+			
 						if (prod_cat_selected == "p_health_care")
 			{
 				if (curr_nodes[i].p_health_care == "N")
@@ -810,7 +800,6 @@ d3.csv("data/data0201.csv", function(error, data) {
 				if (curr_nodes[i].p_body_hair_care == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
 			}
 			
@@ -819,7 +808,6 @@ d3.csv("data/data0201.csv", function(error, data) {
 				if (curr_nodes[i].p_sport == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
 			}			
 			
@@ -828,61 +816,50 @@ d3.csv("data/data0201.csv", function(error, data) {
 				if (curr_nodes[i].p_men == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
 			}	
-
 			else if (prod_cat_selected == "p_other")
 			{
 				if (curr_nodes[i].p_other == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
 			}	
-
 			else if (prod_cat_selected == "p_derma")
 			{
 				if (curr_nodes[i].p_derma == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
 			}	
-
 			else if (prod_cat_selected == "p_watsons_brand")
 			{
 				if (curr_nodes[i].p_watsons_brand == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
 			}
-
 			else if (prod_cat_selected == "p_bulk_buy")
 			{
 				if (curr_nodes[i].p_bulk_buy == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
-			}	
-*/
+			}
+*/			
 			else if (prod_cat_selected == "b_personal_care")
 			{
 				if (curr_nodes[i].b_personal_care == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
 			}	
-/*
+			/*
 			else if (prod_cat_selected == "b_skincare")
 			{
 				if (curr_nodes[i].b_skincare == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
 			}	
 			
@@ -891,7 +868,6 @@ d3.csv("data/data0201.csv", function(error, data) {
 				if (curr_nodes[i].b_cosmetics == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
 			}
 			
@@ -909,61 +885,48 @@ d3.csv("data/data0201.csv", function(error, data) {
 				if (curr_nodes[i].b_body_hair_care == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
 			}	
-
 			else if (prod_cat_selected == "b_sport")
 			{
 				if (curr_nodes[i].b_sport == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
 			}	
-
 			else if (prod_cat_selected == "b_men")
 			{
 				if (curr_nodes[i].b_men == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
 			}
-
 			else if (prod_cat_selected == "b_other")
 			{
 				if (curr_nodes[i].b_other == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
 			}
-
 			else if (prod_cat_selected == "b_derma")
 			{
 				if (curr_nodes[i].b_derma == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
 			}
-
 			else if (prod_cat_selected == "b_watsons_brand")
 			{
 				if (curr_nodes[i].b_watsons_brand == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
 			}	
-
 			else if (prod_cat_selected == "b_bulk_buy")
 			{
 				if (curr_nodes[i].b_bulk_buy == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
 			}
 */			
@@ -998,8 +961,6 @@ d3.csv("data/data0201.csv", function(error, data) {
 //			console.log(start_h,curr_h)
 //			console.log(d)
 		  	if(!curr_nodes.some(e => e.userid == d.userid)) {
-			
-	if(!curr_nodes.some(e => e.userid == d.userid)) {
 			
 			if (prod_cat_selected == "p_personal_care")
 			{
@@ -1253,9 +1214,7 @@ d3.csv("data/data0201.csv", function(error, data) {
 					.style("fill", function(d) { return d.color; })
 					.style("stroke", function(d) { return d.stroke; });
 					
-
 									
-
 				force.start();*/
 
 				}
