@@ -9,31 +9,30 @@
 
 <div id="main-wrapper">
 
-
+	
 	<div id="sidebar">
 <!--<div id="test">testint</div>-->
 
 <div id="current_date">02/07/2020</div>
 <div id="current_time">time</div>
-<div align="center" style="color:white">Current Online Users:</div>
+<div align="center">Current Online Users:</div>
 <div id="current_users" align="center">Elite: <span id = "elite">0</span> Member: <span id = "member">0</span> Eshopper: <span id="eshopper">0</span> Anonymous: <span id="anonymous">0</span></div>
 <div id="current_total_users" align="center">Total: 0</div>
 <div class="container">
     <span class="choose">Select Member Type: </span>
-
+  
     <div class="dropdown">
         <div class="select">
           <span id = "selected">Select Member Type </span><span id="right_arrow">▼</span>
-
+       
         </div>
         <input type="hidden" name="gender" id="list_input">
         <ul class="dropdown-menu" id="list">
 		 <li id="all">All</li>
  <!--         <li id="p_personal_care">p_Personal Care</li>
-          <li id="p_skincare">p_Skincare</li>	
-		  <li id="p_cosmetics">p_Cosmetics</li>-->
-		<li id="p_health_care">p_Health Care</li>
-<!--		  <li id="p_body_hair_care">p_Body Hair Care</li>
+          <li id="p_skincare">p_Skincare</li>	-->
+		  <li id="p_cosmetics">p_Cosmetics</li>
+<!--		  <li id="p_body_hair_care">p_Boday Hair Care</li>
 		  <li id="p_sport">p_Sport</li>
 		  <li id="p_men">p_Men</li>
 		  <li id="p_other">p_Other</li>
@@ -41,10 +40,9 @@
 		  <li id="p_watsons_brand">p_Watsons Brand</li>
 		  <li id="p_bulk_buy">p_Bulk Buy</li>
 		  <li id="b_personal_care">b_Personal Care</li>
-          <li id="b_skincare">b_Skincare</li>	
-		  <li id="b_cosmetics">b_Cosmetics</li>-->
-			<li id="b_health_care">b_Health Care</li>
-<!--		  <li id="b_body_hair_care">b_Body Hair Care</li>
+          <li id="b_skincare">b_Skincare</li>	-->
+		  <li id="b_cosmetics">b_Cosmetics</li>
+<!--		  <li id="b_body_hair_care">b_Boday Hair Care</li>
 		  <li id="b_sport">b_Sport</li>
 		  <li id="b_men">b_Men</li>
 		  <li id="b_other">b_Other</li>
@@ -52,7 +50,7 @@
 		  <li id="b_watsons_brand">b_Watsons Brand</li>
 		  <li id="b_bulk_buy">b_Bulk Buy</li>		-->
         </ul>
-
+	
       </div>
 
   <span class="msg"></span>
@@ -68,20 +66,16 @@
 </div>
 <div id="note" style="text-align:center;"></div>
 </div>
-
-
-<!--    <div id="chart"></div> -->
-<svg id="chart" width="100%" height="100%"
-  viewBox="0 0 1550 800"
-  preserveAspectRatio="xMidYMid meet">
-</svg>
+	
+	
+    <div id="chart"></div>
 
 
 </div><!-- @end #main-wrapper -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script src="js/d3-3-5-5.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Poiret+One&family=Press+Start+2P&family=Special+Elite&family=VT323&family=Creepster&display=swap" rel="stylesheet">
+
 
 <script>
 
@@ -91,14 +85,11 @@ $('.dropdown').click(function () {
         $(this).attr('tabindex', 1).focus();
         $(this).toggleClass('active');
         $(this).find('.dropdown-menu').slideToggle(300);
-//		$(this).find('.dropdown-menu').css({overflow: 'auto'});
-//		$(this).find('.dropdown-menu').css({'margin-left': '-1px'});
-	//	$(this).find('.select').css({'border-radius': '4px 4px 0 0'});
+		$(this).find('.dropdown-menu').css({overflow: 'auto'});
     });
     $('.dropdown').focusout(function () {
         $(this).removeClass('active');
         $(this).find('.dropdown-menu').slideUp(300);
-	//	$(this).find('.select').css({'border-radius': '4px 4px 4px 4px'});
     });
     $('.dropdown .dropdown-menu li').click(function () {
         $(this).parents('.dropdown').find('#selected').text($(this).text());
@@ -113,8 +104,8 @@ $('.dropdown-menu li').click(function () {
       msg = '<span class="msg">Channel Selected: ';
   $('.msg').html(msg + input + '</span>');
   console.log(document.getElementById("list_input").value)
-
-});
+ 
+}); 
 
 
 
@@ -125,9 +116,8 @@ var USER_SPEED = "medium";
 var speeds = { "slow": 1200, "medium": 400, "fast": 50 };
 var simtimer;
 
+var date_update = 0;
 var curr_date;
-
-var  date_update = 0;
 
 var margin = {top: 70, right: 60, bottom: 70, left: 10};
 margin.left = margin.right = width < 500 ? 30 : 70;
@@ -141,22 +131,20 @@ var width = parseInt(d3.select("#chart").style('width'), 10) - margin.left - mar
 var x = d3.scale.linear()
     .domain([1, 3])
     .range([0, width]);
-
+	
 var y = d3.scale.linear()
     .domain([1, 4])
     .range([0, height]);
-
+	
 var	sched_objs = {},
 // var sched_objs = [],
 //	curr_minute = 0;
-//	curr_minute = 79200 - 60; // 10pm - 1min
-//	curr_minute = 82800 - 60; // 11pm - 1min
-curr_minute = 43200 - 60;
+	curr_minute = 79200 - 60;
 
 //const svg = d3.select("#chart").append("svg")
 //    .attr("width", width + margin.left + margin.right)
 const svg = d3.select("#chart").append("svg")
-	.attr("width", 1700)
+	.attr("width", 1700)		
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -169,31 +157,25 @@ const background_left = svg.append("rect")
 						.attr("y", -50)
 						.attr("width", 1000)
 						.attr("height", height + margin.top + margin.bottom)
-						.style("fill", "#001f07")
-//						.style("fill", "#ebebeb")
-//						.style("fill", "#E9FFB7")
-
+						.style("fill", "#E9FFB7")
+						
 const background_right = svg.append("rect")
 						.attr("x", 500)
 						.attr("y", -50)
 						.attr("width", "100%")
 						.attr("height", height + margin.top + margin.bottom)
-						.style("fill", "#000f1f")
-//						.style("fill", "#FFFFFF")
-//						.style("fill", "#6CADD3")
+						.style("fill", "#6CADD3")																
 
 // Circle background
 /*
-svg.append("circle").attr("cx",1050).attr("cy",360).attr("r",320)
-  .style("fill", "#69b3a2");
+svg.append("circle").attr("cx",1050).attr("cy",350).attr("r",320)
+  .style("fill", "#69b3a2");						
 */
 // Legends
 
 const legned_svg = d3.select("#note").append("svg")
-	.attr("width", "100%")
-    .attr("height", "100%")
-	.attr("viewBox","0 0 980 50")
-	.attr( "preserveAspectRatio", "xMidYMid meet")
+	.attr("width", 1000)		
+    .attr("height", 50)
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -201,102 +183,92 @@ const legned_svg = d3.select("#note").append("svg")
 // svg.append("circle")
 	.attr("cx", 200)
 	.attr("cy", -30)
-	.attr("r", 8)
+	.attr("r", 10)
 	.attr("fill", "#FF839A");
-
+	
 		legned_svg.append("text")
 //	svg.append("text")
 		.attr("x", 215)
 		.attr("y", -25)
 		.text(": Elite")
-		.style("font-family", "'VT323', monospace")
-			.style("fill", "White")
-		.attr("font-size", "18px");
-//		.attr("font-family", "sans-serif")
-//		.attr("font-size", "12px");
-	legned_svg.append("circle")
+		.attr("font-family", "sans-serif")
+		.attr("font-size", "15px");
+	legned_svg.append("circle")	
 // svg.append("circle")
 	.attr("cx", 320)
 	.attr("cy", -30)
-	.attr("r", 8)
+	.attr("r", 10)
 	.attr("fill", "#83FFEE");
-
+	
 	legned_svg.append("text")
 //	svg.append("text")
 		.attr("x", 335)
 		.attr("y", -25)
 		.text(": Member")
-		.style("font-family", "'VT323', monospace")
-			.style("fill", "White")
-		.attr("font-size", "18px");
-//		.attr("font-family", "sans-serif")
-//		.attr("font-size", "12px");
-
-	legned_svg.append("circle")
+		.attr("font-family", "sans-serif")
+		.attr("font-size", "15px");
+		
+	legned_svg.append("circle")	
 //svg.append("circle")
 	.attr("cx", 440)
 	.attr("cy", -30)
-	.attr("r", 8)
+	.attr("r", 10)
 	.attr("fill", "#FDFF83");
-
-	legned_svg.append("text")
+	
+	legned_svg.append("text")	
 //	svg.append("text")
 		.attr("x", 455)
 		.attr("y", -25)
 		.text(": Eshopper")
-		.style("font-family", "'VT323', monospace")
-			.style("fill", "White")
-		.attr("font-size", "18px");
-//		.attr("font-family", "sans-serif")
-//		.attr("font-size", "12px");
-
-legned_svg.append("circle")
+		.attr("font-family", "sans-serif")
+		.attr("font-size", "15px");
+		
+legned_svg.append("circle")		
 //svg.append("circle")
 	.attr("cx", 560)
 	.attr("cy", -30)
-	.attr("r", 8)
+	.attr("r", 10)
 	.attr("fill", "#E7E7E7");
-
-	legned_svg.append("text")
+	
+	legned_svg.append("text")	
 //	svg.append("text")
 		.attr("x", 575)
 		.attr("y", -25)
 		.text(": Anonymous")
-		.style("font-family", "'VT323', monospace")
-			.style("fill", "White")
-		.attr("font-size", "18px");
+		.attr("font-family", "sans-serif")
+		.attr("font-size", "15px");
 
-
-//Append circle
+		
+//Append circle 
 
 
 
 const groups = {
 
-	"Paid Search": { x: 140, y: 70, cnt: 0, fullname: "Paid Search"},
-	"Organic Search": { x: 280, y: 150, cnt: 0 , fullname: "Organic Search"},
-	"Social": { x: 140, y: 230, cnt: 0, fullname: "Social"},
-	"Referral": { x: 280, y: 290, cnt: 0, fullname: "Referral"},
-	"Direct": { x: 140, y: 350, cnt: 0 , fullname: "Direct"},
-	"Affiliate": { x: 280, y: 430, cnt: 0, fullname: "Affiliate"},
-	"Web Push": { x: 140, y: 490, cnt: 0, fullname: "Web Push"},
-	"O2O": { x: 280, y: 550, cnt: 0, fullname: "O2O"},
-	"Others": { x: 140, y: 610, cnt: 0, fullname: "Others"},
-
-	"Homepage": { x: 900, y: 70, cnt: 0, fullname: "Homepage" },
-	"Product": { x: 750, y: 460, cnt: 0, fullname: "Product" },
-	"Other": { x: 1320, y: 530, cnt: 0, fullname: "Other" },
-	"Category": { x: 780, y: 170, cnt: 0, fullname: "Category" },
-	"BlogContent": { x: 1370, y: 380, cnt: 0, fullname: "Blog Content" },
-	"Cart": { x: 820, y: 580, cnt: 0, fullname: "Cart" },
-	"Checkout": {  x: 1000, y: 665, cnt: 0, fullname: "Checkout" },
-	"Loyalty": { x: 1350, y: 230, cnt: 0, fullname: "Loyalty" },
-	"MyAccount": { x: 1270, y: 110, cnt: 0, fullname: "My Account" },
-	"Register": { x: 1100, y: 40, cnt: 0, fullname: "Register" },
-	"SearchResult": { x: 730, y: 300, cnt: 0, fullname: "Search Result" },
+	"Paid Search": { x: 140, y: 60, cnt: 0, fullname: "Paid Search"},
+	"Organic Search": { x: 280, y: 140, cnt: 0 , fullname: "Organic Search"},
+	"Social": { x: 140, y: 220, cnt: 0, fullname: "Social"},
+	"Referral": { x: 280, y: 280, cnt: 0, fullname: "Referral"},
+	"Direct": { x: 140, y: 340, cnt: 0 , fullname: "Direct"},
+	"Affiliate": { x: 280, y: 420, cnt: 0, fullname: "Affiliate"},
+	"Web Push": { x: 140, y: 480, cnt: 0, fullname: "Web Push"},
+	"O2O": { x: 280, y: 540, cnt: 0, fullname: "O2O"},
+	"Others": { x: 140, y: 600, cnt: 0, fullname: "Others"},
+	
+	"Homepage": { x: 900, y: 60, cnt: 0, fullname: "Homepage" },
+	"Product": { x: 750, y: 450, cnt: 0, fullname: "Product" },
+	"Other": { x: 1320, y: 520, cnt: 0, fullname: "Other" },
+	"Category": { x: 780, y: 160, cnt: 0, fullname: "Category" },
+	"BlogContent": { x: 1370, y: 370, cnt: 0, fullname: "Blog Content" },
+	"Cart": { x: 820, y: 570, cnt: 0, fullname: "Cart" },
+	"Checkout": {  x: 1000, y: 655, cnt: 0, fullname: "Checkout" },
+	"Loyalty": { x: 1350, y: 220, cnt: 0, fullname: "Loyalty" },
+	"MyAccount": { x: 1270, y: 100, cnt: 0, fullname: "My Account" },
+	"Register": { x: 1100, y: 30, cnt: 0, fullname: "Register" },
+	"SearchResult": { x: 730, y: 290, cnt: 0, fullname: "Search Result" },
 	"Left" : { x: 850, y: 20000, cnt: 0, fullname: "Left" },
-	"NULL" : { x: 1200, y: 630, cnt: 0, fullname: "Order Placed" }
-
+	"NULL" : { x: 1200, y: 620, cnt: 0, fullname: "Order Placed" }
+	
 };
 
 const member_tiers = {
@@ -317,16 +289,16 @@ var layer2 = svg.append('g');
 // Load data.
 
 
-//d3.csv("data/Page_Duration.csv", function(error, data) {
-d3.csv("data/data0523.csv", function(error, data) {
-//d3.csv("data/data_channels.csv", function(error, data) {
-//d3.csv("data/Book1.csv", function(error, data) {
-//d3.csv("data/new_test.csv", function(error, data) {
-//d3.csv("data/test2.csv", function(error, data) {
-//d3.csv("data/new_dataset.csv", function(error, data) {
+//d3.csv("data/Page_Duration.csv", function(error, data) {	
+
+//d3.csv("data/data_channels.csv", function(error, data) {	
+d3.csv("data/Book1.csv", function(error, data) {	
+//d3.csv("data/new_test.csv", function(error, data) {	
+//d3.csv("data/test2.csv", function(error, data) {	
+//d3.csv("data/new_dataset.csv", function(error, data) {	
 
 /*	data.forEach(function(d) {
-
+	
 		var activities = [];
 		console.log(d)
 		console.log(d.pagetype)
@@ -335,9 +307,9 @@ d3.csv("data/data0523.csv", function(error, data) {
 	}); */
 	console.log(data)
 	var count = 0;
+	
 
-
-
+	
 	data.forEach(d => {
 //	console.log(d)
 //	count+=1;
@@ -346,9 +318,9 @@ d3.csv("data/data0523.csv", function(error, data) {
 //		console.log(d.userid)
 //            sched_objs[d.userid+""].push({'userid': d.userid, 'act': d.pagetype, 'duration': d.page_duration, 'member_tier': d.member_tier, 'start_time': d.start_time});
 			sched_objs[d.sessionid+""].push({'userid': d.sessionid,
-											'act': d.pagetype,
-											'duration': d.page_duration,
-											'member_tier': d.member_tier,
+											'act': d.pagetype, 
+											'duration': d.page_duration, 
+											'member_tier': d.member_tier, 
 											'start_time': /*d.tstamp*/d.session_start_time,
 											'medium':d.medium,
 											'p_personal_care': d.p_personal_care,
@@ -377,9 +349,9 @@ d3.csv("data/data0523.csv", function(error, data) {
         } else {
 //            sched_objs[d.userid+""] = [{'userid': d.userid, 'act': d.pagetype, 'duration': d.page_duration, 'member_tier': d.member_tier, 'start_time': d.start_time}];
 			sched_objs[d.sessionid+""] = [{'userid': d.sessionid,
-											'act': d.pagetype,
-											'duration': Math.floor(d.page_duration),
-											'member_tier': d.member_tier,
+											'act': d.pagetype, 
+											'duration': Math.floor(d.page_duration), 
+											'member_tier': d.member_tier, 
 											'start_time': /*d.tstamp*/d.session_start_time,
 											'medium':d.medium,
 											'p_personal_care': d.p_personal_care,
@@ -403,26 +375,25 @@ d3.csv("data/data0523.csv", function(error, data) {
 											'b_other': d.b_other,
 											'b_derma': d.b_derma,
 											'b_watsons_brand': d.b_watsons_brand,
-											'b_bulk_buy': d.b_bulk_buy,
+											'b_bulk_buy': d.b_bulk_buy,											
 											}];
         }
     });
-
+	
 
 
 /*	var nodes = sched_objs.map(function(o,i) {
 //		console.log("test");
 		console.log(o[0].userid,o[0].start_time, o[0].duration);
-
+	
 		var act = o[0].act;
 		var init_time = o[0].start_time;
-
+	
 		var init_x = groups[act].x + Math.random();
 		var init_y = groups[act].y + Math.random();
 		var col = member_tiers[o[0].member_tier].color;
-
 	//	groups[act].cnt += 1;
-
+		
 		return {
 			userid: o[0].userid,
 			act: act,
@@ -432,35 +403,35 @@ d3.csv("data/data0523.csv", function(error, data) {
 			color: col, //color(act),
 			moves: 0,
 			next_move_time: parseInt(o[0].duration),
-			sched: o,
+			sched: o,		
 			stroke: "black",
 			start_time: init_time
 		}
 	});*/
-
+	
 	var nodes = [];
-
+	
 	console.log(Object.keys(sched_objs).length)
 	console.log(sched_objs);
-
+	
 	for (var k in sched_objs){
 //		console.log(k)
 		d = sched_objs[k];
+		
 
-
-
+		
 //		console.log(d[0].userid,d[0].start_time, d[0].duration);
 //		console.log(k)
-
+	
 		var act = d[0].act;
 		var init_time = d[0].start_time;
-
+	
 
 		var col = member_tiers[d[0].member_tier].color;
-
+		
 		var temp_medium = d[0].medium;
 		var medium = "Others";
-
+		
 		if (temp_medium == 'cpc')
 		{
 			medium = 'Paid Search';
@@ -493,11 +464,11 @@ d3.csv("data/data0523.csv", function(error, data) {
 		{
 			medium = "O2O";
 		}
-
+		
 		d.unshift({'userid': d[0].userid,
-			'act': medium,
-			'duration': 60,
-			'member_tier': d[0].member_tier,
+			'act': medium, 
+			'duration': 60, 
+			'member_tier': d[0].member_tier, 
 			'start_time': /*d.tstamp*/init_time,
 			'medium':medium,
 			'p_personal_care': d[0].p_personal_care,
@@ -522,28 +493,27 @@ d3.csv("data/data0523.csv", function(error, data) {
 			'b_derma': d[0].b_derma,
 			'b_watsons_brand': d[0].b_watsons_brand,
 			'b_bulk_buy': d[0].b_bulk_buy,	})
-
+	
 	//	groups[act].cnt += 1;
 /*
 		var init_x = groups[act].x + Math.random();
 		var init_y = groups[act].y + Math.random();
-*/
+*/	
 		var init_x = groups[medium].x + Math.random();
 		var init_y = groups[medium].y + Math.random();
-
+		
 		console.log(d[0])
-
+		
 		nodes.push({
 			userid: d[0].userid,
 			act: medium,
-//			radius: maxRadius,
-			radius: 4,
+			radius: maxRadius,
 			x: init_x,
 			y: init_y,
 			color: col, //color(act),
 			moves: 0,
 			next_move_time: parseInt(d[0].duration) + curr_minute,
-			sched: d,
+			sched: d,		
 			stroke: "blue",
 			start_time: init_time,
 			leave: 0,
@@ -573,14 +543,14 @@ d3.csv("data/data0523.csv", function(error, data) {
 			b_watsons_brand: d[0].b_watsons_brand,
 			b_bulk_buy: d[0].b_bulk_buy,
 		})
-
+	
 	}
-
+	
 	console.log(nodes)
-
+	
 	var curr_nodes = [];
 
-
+	
 //	console.log(data)
 	nodes.forEach(d => {
 //		console.log(d.sched[0].start_time)
@@ -595,9 +565,9 @@ d3.csv("data/data0523.csv", function(error, data) {
 				try{d.act = d.sched[1].act;}
 				catch(err){}
 			}
-*/
+*/			
 //			console.log(d)
-
+				
 //				console.log(d);
 			if (d.color != "transparent")
 			{
@@ -609,7 +579,7 @@ d3.csv("data/data0523.csv", function(error, data) {
 			curr_nodes.push(d);
 //			console.log(d.medium)
 //			nodes.pop(d);
-        }
+        } 
 
     });
 	console.log(nodes);
@@ -620,8 +590,8 @@ d3.csv("data/data0523.csv", function(error, data) {
 		groups[d.act].cnt += 1;
 	}
 	);*/
-
-
+	
+	
 	//curr_nodes = nodes.filter(d => d.sched[0].start_time == data[0].start_time);
 //	console.log(nodes.length)
 //	curr_nodes = nodes
@@ -640,7 +610,7 @@ d3.csv("data/data0523.csv", function(error, data) {
         .text(d => groups[d].fullname);*/
 
 
-
+	
 	var force = d3.layout.force()
 		.nodes(curr_nodes)
 		// .links([])
@@ -651,20 +621,19 @@ d3.csv("data/data0523.csv", function(error, data) {
 		.on("tick", tick)
 		.start();
 /*
-	var circle = svg.append("g")
+	var circle = svg.append("g")		
 				.attr("id", "circle_node")
 				.selectAll(".node")
 //	var circle = svg.selectAll(".node")
 				.data(curr_nodes)
 			  .enter().append("circle")
 				.attr("r", function(d) { return d.radius; })
-
 		.style("fill", function(d) { return d.color; })
 		.style("stroke", function(d) { return d.stroke; });
-	//	 .call(force.drag);
+	//	 .call(force.drag); 
 */
 
-		var circle = layer1
+		var circle = layer1		
 				.attr("id", "circle_node")
 				.selectAll(".node")
 //	var circle = svg.selectAll(".node")
@@ -674,8 +643,8 @@ d3.csv("data/data0523.csv", function(error, data) {
 
 		.style("fill", function(d) { return d.color; })
 		.style("stroke", function(d) { return d.stroke; });
-	//	 .call(force.drag);
-/*
+	//	 .call(force.drag); 
+/*					
 		var actlabel = svg.append("g").selectAll('.actlabel')
 //		var actlabel = svg.selectAll('.actlabel')
       .data(d3.keys(groups))
@@ -686,32 +655,27 @@ d3.csv("data/data0523.csv", function(error, data) {
 //		var actlabel = svg.selectAll('.actlabel')
       .data(d3.keys(groups))
 	        .enter().append("g")
-          .attr("class", "actlabel")
+          .attr("class", "actlabel")	
 
 
-
+		  
 		  actlabel.append("text")
 		  .attr("class", "actlabel")
           .attr("text-anchor", "middle")
 		  .attr("x", d => groups[d].x)
           .attr("y", d => groups[d].y+20)
 		  	.attr("dy", "-1.8em")
-			.style("fill", "#f20000")
-//			.style("fill", "#B11F00")
-			.style("font-weight", 50)
-			.style("font-family", "'Creepster', cursive")
-		.attr("font-size", "30px")
+			.style("fill", "Black")
+			.style("font-weight", "bold")
           .text(d => groups[d].fullname);
-/*
+/*	
 	// Count labels
 	var cntlabel = svg.append("g").selectAll('.cntlabel')
 //	var cntlabel = svg.selectAll('.cntlabel')
       .data(d3.keys(groups))
 	        .enter().append("g")
           .attr("class", "cntlabel")
-
-
-
+		  
 		  cntlabel.append("text")
 		  .attr("class", "cnt")
           .attr("text-anchor", "middle")
@@ -720,13 +684,10 @@ d3.csv("data/data0523.csv", function(error, data) {
 //          .attr("y", d => groups[d].y-10)
 			.style("fill", "Black")
 			.style("font-weight", "bold")
-          .text(d => groups[d].cnt);
-//	console.log(sched_objs)
-
-
-
+          .text(d => groups[d].cnt);	
+//	console.log(sched_objs)	
 */
-
+	
 	// Count labels
 	var cntlabel = layer2.selectAll('.cntlabel')
 //	var cntlabel = svg.selectAll('.cntlabel')
@@ -735,29 +696,26 @@ d3.csv("data/data0523.csv", function(error, data) {
           .attr("class", "cntlabel")
 
 
-
+		  
 		  cntlabel.append("text")
 		  .attr("class", "cnt")
           .attr("text-anchor", "middle")
 		  .attr("x", d => groups[d].x)
           .attr("y", d => groups[d].y+20)
 //          .attr("y", d => groups[d].y-10)
-			.style("fill", "#f20000")
-//			.style("fill", "#B11F00")
-//			.style("font-weight", "bold")
-			.style("font-family", "'Creepster', cursive")
-		.attr("font-size", "24px")
-          .text(d => groups[d].cnt);
-
+			.style("fill", "Black")
+			.style("font-weight", "bold")
+          .text(d => groups[d].cnt);	
+		  
 //		  console.log(data[0])
-
+		  
 //		  sts_time = String(data[0].session_start_time.split(" ")[0])
 //		  console.log(sts_time.split(" ")[0])
 //		  console.log(data[0].session_start_time.split(" ")[0])
 		  // Initial Date Time
 //		  	d3.select("#current_date").text(data[0].start_time.split(" ")[0]);
 
-
+		
 
 //		curr_date = data[0].tstamp.split(" ")[0];
 
@@ -765,20 +723,20 @@ d3.csv("data/data0523.csv", function(error, data) {
 
 //		console.log(data[0])
 //		console.log(data[0]./*tstamp*/session_start_time)
-	//	d3.select("#current_date").text(curr_date);
+//		d3.select("#current_date").text(curr_date);
 //		console.log("test")
 
-
+		
 
 
 		d3.select("#elite").text(member_tiers.Elite.cnt)
 		d3.select("#member").text(member_tiers.Member.cnt)
 		d3.select("#eshopper").text(member_tiers.eshopper.cnt)
-		d3.select("#anonymous").text(member_tiers.anonymous.cnt)
+		d3.select("#anonymous").text(member_tiers.anonymous.cnt)		
 		d3.select("#current_total_users").text("Total: " + (member_tiers.Elite.cnt+member_tiers.Member.cnt+member_tiers.eshopper.cnt+member_tiers.anonymous.cnt));
 
 		org_prod_cat = "All";
-
+	
 		// Update nodes based on activity and duration
 	function timer() {
 //			d3.select("#test").text("test "+document.getElementById("list_input").value)
@@ -790,36 +748,34 @@ d3.csv("data/data0523.csv", function(error, data) {
 		d3.range(curr_nodes.length).map(function(i) {
             // var curr_node = nodes[i],
                 // curr_moves = nodes[i].moves;
-
-//			console.log("----------------");
+				
+//			console.log("----------------");	
 //			console.log(nodes);
 		if (org_prod_cat != prod_cat_selected)
 		{
 //		console.log(org_prod_cat)
 //		console.log(prod_cat_selected)
 			filter_reset(curr_nodes[i]);
-/*
+/*			
 			if (prod_cat_selected == "p_personal_care")
 			{
 				if (curr_nodes[i].p_personal_care == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
 			}
-
+			
 			else if (prod_cat_selected == "p_skincare")
 			{
 				if (curr_nodes[i].p_skincare == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
 			}
-
-			else if (prod_cat_selected == "p_cosmetics")
 			
-			if (prod_cat_selected == "p_cosmetics") 
+			else if (prod_cat_selected == "p_cosmetics")
+			*/
+			if (prod_cat_selected == "p_cosmetics")
 			{
 				if (curr_nodes[i].p_cosmetics == "N")
 					{
@@ -827,97 +783,73 @@ d3.csv("data/data0523.csv", function(error, data) {
 
 					}
 			}
-*/			
-						if (prod_cat_selected == "p_health_care")
-			{
-				if (curr_nodes[i].p_health_care == "N")
-					{
-						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
-					}
-			}
-/*
+/*			
 			else if (prod_cat_selected == "p_body_hair_care")
 			{
 				if (curr_nodes[i].p_body_hair_care == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
 			}
-
+			
 			else if (prod_cat_selected == "p_sport")
 			{
 				if (curr_nodes[i].p_sport == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
-			}
-
+			}			
+			
 			else if (prod_cat_selected == "p_men")
 			{
 				if (curr_nodes[i].p_men == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
-			}
-
+			}	
 			else if (prod_cat_selected == "p_other")
 			{
 				if (curr_nodes[i].p_other == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
-			}
-
+			}	
 			else if (prod_cat_selected == "p_derma")
 			{
 				if (curr_nodes[i].p_derma == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
-			}
-
+			}	
 			else if (prod_cat_selected == "p_watsons_brand")
 			{
 				if (curr_nodes[i].p_watsons_brand == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
 			}
-
 			else if (prod_cat_selected == "p_bulk_buy")
 			{
 				if (curr_nodes[i].p_bulk_buy == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
-			}
-
+			}	
 			else if (prod_cat_selected == "b_personal_care")
 			{
 				if (curr_nodes[i].b_personal_care == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
-			}
-
+			}	
 			else if (prod_cat_selected == "b_skincare")
 			{
 				if (curr_nodes[i].b_skincare == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
-			}
-
+			}	
+*/
 			else if (prod_cat_selected == "b_cosmetics")
 			{
 				if (curr_nodes[i].b_cosmetics == "N")
@@ -925,92 +857,70 @@ d3.csv("data/data0523.csv", function(error, data) {
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
 
 					}
-			}
-*/			
-			else if (prod_cat_selected == "b_health_care")
-			{
-				if (curr_nodes[i].b_health_care == "N")
-					{
-						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
-					}
-			}
+			}	
 /*
 			else if (prod_cat_selected == "b_body_hair_care")
 			{
 				if (curr_nodes[i].b_body_hair_care == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
-			}
-
+			}	
 			else if (prod_cat_selected == "b_sport")
 			{
 				if (curr_nodes[i].b_sport == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
-			}
-
+			}	
 			else if (prod_cat_selected == "b_men")
 			{
 				if (curr_nodes[i].b_men == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
 			}
-
 			else if (prod_cat_selected == "b_other")
 			{
 				if (curr_nodes[i].b_other == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
 			}
-
 			else if (prod_cat_selected == "b_derma")
 			{
 				if (curr_nodes[i].b_derma == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
 			}
-
 			else if (prod_cat_selected == "b_watsons_brand")
 			{
 				if (curr_nodes[i].b_watsons_brand == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
-			}
-
+			}	
 			else if (prod_cat_selected == "b_bulk_buy")
 			{
 				if (curr_nodes[i].b_bulk_buy == "N")
 					{
 						curr_nodes[i] = filter_bubbles (curr_nodes[i]);
-
 					}
 			}
-*/
+*/			
 		}
 
 //		d3.select("#test").text("test "+document.getElementById("list_input").value)
 //		prod_cat_selected = document.getElementById("list_input").value;
-
-
+		
+		
 		nodes.forEach(d => {
+		
 
+		
 
-
-
-
+		
 //		console.log(d)
 //		console.log(d.sched[0].start_time)
 			start_h = get_currDateTime(d.sched[0].start_time)[3];
@@ -1024,239 +934,37 @@ d3.csv("data/data0523.csv", function(error, data) {
 				start_h -= 1;
 			}
 			else {start_m -= 1}
-
+			
 //		console.log(start_h,start_m, minutesToTime(curr_minute))
 		  if (start_h == curr_h && start_m == curr_m) {
 //			console.log(start_h,curr_h)
 //			console.log(d)
 		  	if(!curr_nodes.some(e => e.userid == d.userid)) {
-
-			if (prod_cat_selected == "p_personal_care")
+			
+						if (prod_cat_selected == "p_personal_care")
 			{
-				if (d.p_personal_care == "N")
+				if (d.p_personal_care == 0)
 					{
 						d.color = "transparent";
 						d.stroke = "transparent";
 					}
 			}
-
+			
 			else if (prod_cat_selected == "p_skincare")
 			{
-				if (d.p_skincare == "N")
+				if (d.p_skincare == 0)
 					{
 						d.color = "transparent";
 						d.stroke = "transparent";
 
 					}
 			}
-			
-			else if (prod_cat_selected == "p_cosmetics")
-			{
-				if (d.p_cosmetics == "N")
-					{
-						d.color = "transparent";
-						d.stroke = "transparent";
-
-					}
-			}
-			
-			else if (prod_cat_selected == "p_health_care")
-			{
-				if (d.p_health_care == "N")
-					{
-						d.color = "transparent";
-						d.stroke = "transparent";
-
-					}
-			}
-			
-			else if (prod_cat_selected == "p_body_hair_care")
-			{
-				if (d.p_body_hair_care == "N")
-					{
-						d.color = "transparent";
-						d.stroke = "transparent";
-
-					}
-			}
-			
-			else if (prod_cat_selected == "p_sport")
-			{
-				if (d.p_sport == "N")
-					{
-						d.color = "transparent";
-						d.stroke = "transparent";
-
-					}
-			}	
-
-			else if (prod_cat_selected == "p_men")
-			{
-				if (d.p_men == "N")
-					{
-						d.color = "transparent";
-						d.stroke = "transparent";
-
-					}
-			}		
-
-			else if (prod_cat_selected == "p_other")
-			{
-				if (d.p_other == "N")
-					{
-						d.color = "transparent";
-						d.stroke = "transparent";
-
-					}
-			}
-
-			else if (prod_cat_selected == "p_derma")
-			{
-				if (d.p_derma == "N")
-					{
-						d.color = "transparent";
-						d.stroke = "transparent";
-
-					}
-			}	
-
-			else if (prod_cat_selected == "p_watsons_brand")
-			{
-				if (d.p_watsons_brand == "N")
-					{
-						d.color = "transparent";
-						d.stroke = "transparent";
-
-					}
-			}
-
-			else if (prod_cat_selected == "p_bulk_buy")
-			{
-				if (d.p_bulk_buy == "N")
-					{
-						d.color = "transparent";
-						d.stroke = "transparent";
-
-					}
-			}		
-
-			else if (prod_cat_selected == "b_personal_care")
-			{
-				if (d.b_personal_care == "N")
-					{
-						d.color = "transparent";
-						d.stroke = "transparent";
-
-					}
-			}					
-			
-			else if (prod_cat_selected == "b_skincare")
-			{
-				if (d.b_skincare == "N")
-					{
-						d.color = "transparent";
-						d.stroke = "transparent";
-
-					}
-			}	
-			
-			else if (prod_cat_selected == "b_cosmetics")
-			{
-				if (d.b_cosmetics == "N")
-					{
-						d.color = "transparent";
-						d.stroke = "transparent";
-
-					}
-			}	
-
-			else if (prod_cat_selected == "b_health_care")
-			{
-				if (d.b_health_care == "N")
-					{
-						d.color = "transparent";
-						d.stroke = "transparent";
-
-					}
-			}	
-			
-			else if (prod_cat_selected == "b_body_hair_care")
-			{
-				if (d.b_body_hair_care == "N")
-					{
-						d.color = "transparent";
-						d.stroke = "transparent";
-
-					}
-			}
-
-			else if (prod_cat_selected == "b_sport")
-			{
-				if (d.b_sport == "N")
-					{
-						d.color = "transparent";
-						d.stroke = "transparent";
-
-					}
-			}
-
-			else if (prod_cat_selected == "b_men")
-			{
-				if (d.b_men == "N")
-					{
-						d.color = "transparent";
-						d.stroke = "transparent";
-
-					}
-			}
-			
-			else if (prod_cat_selected == "b_other")
-			{
-				if (d.b_other == "N")
-					{
-						d.color = "transparent";
-						d.stroke = "transparent";
-
-					}
-			}
-			
-			else if (prod_cat_selected == "b_derma")
-			{
-				if (d.b_derma == "N")
-					{
-						d.color = "transparent";
-						d.stroke = "transparent";
-
-					}
-			}
-			
-			else if (prod_cat_selected == "b_watsons_brand")
-			{
-				if (d.b_watsons_brand == "N")
-					{
-						d.color = "transparent";
-						d.stroke = "transparent";
-
-					}
-			}	
-
-			else if (prod_cat_selected == "b_bulk_buy")
-			{
-				if (d.b_bulk_buy == "N")
-					{
-						d.color = "transparent";
-						d.stroke = "transparent";
-
-					}
-			}				
-
-
+	
 //				console.log(curr_nodes);
 //				console.log("new node");
 //				console.log(d);
 //				console.log(curr_nodes);
 				d.exist = 1;
-				d.leave = 1;
 				d.next_move_time = curr_minute + 60;
 				curr_nodes.push(d);
 //				nodes.pop(d);
@@ -1268,15 +976,15 @@ d3.csv("data/data0523.csv", function(error, data) {
 					member_tiers[d.member_tier].cnt += 1;
 					d.stroke = "green";
 				}
-
+				
 //				console.log(curr_nodes);
-
+				
 //				force.nodes().push(d);
 
-
+			
 //			svg.selectAll("circle").remove();
 /*			svg.selectAll("circle").remove();
-
+				
 //			circle = svg.selectAll(".node")
 			circle = svg.selectAll(".node")
 					.data(curr_nodes)
@@ -1284,52 +992,49 @@ d3.csv("data/data0523.csv", function(error, data) {
 					.attr("r", function(d) { return d.radius; })
 					.style("fill", function(d) { return d.color; })
 					.style("stroke", function(d) { return d.stroke; });
-
-
-
-
+					
+									
 				force.start();*/
 
 				}
-
-			}
-
-
-
+				
+			} 
+			
+			
+			
 		});
-
+		
 
 
 			// Time to go to next activity
 			if (curr_nodes[i].next_move_time == curr_minute) {
-
+		
 				//console.log(curr_nodes[i].sched)
-
+				if (curr_nodes.leave != 1)
+				{
+					curr_nodes.leave = 0;
+				}
 
 					if (! ["Paid Search", "Organic Search", "Social", "Referral", "Direct", "Affiliate", "Web Push", "O2O", "Others"].includes(curr_nodes[i].act))
 					{
 						curr_nodes[i].stroke = "transparent";
-										if (curr_nodes.leave != 1)
-				{
-					curr_nodes.leave = 0;
-				}
 					}
-
+					
 //				console.log(curr_nodes[i].moves, curr_nodes[i].sched.length-1)
 /*				if (curr_nodes[i].moves == curr_nodes[i].sched.length-1) {
 					curr_nodes[i].moves = 0;
 				} else {
 					curr_nodes[i].moves += 1;
 				}*/
-
+				
 				curr_nodes[i].moves += 1;
-
+				
 //				console.log(curr_nodes[i].moves)
-
+			
 				// Subtract from current activity count
                 // act_counts[curr_node.act] -= 1;
                 //groups[curr_nodes[i].act].cnt -= 1;
-
+				
 			if (curr_nodes[i].leave == 1)
 				{
 					if (curr_nodes[i].color != "transparent")
@@ -1355,12 +1060,12 @@ d3.csv("data/data0523.csv", function(error, data) {
 	*/
 				//	curr_nodes = curr_nodes.splice(i,1);
 				}
-
+				
 //				console.log(curr_nodes)
 
 			else
 			{
-
+			
 					// Move on to next activity
 				try{
 	//				console.log(curr_nodes[i].sched)
@@ -1371,7 +1076,7 @@ d3.csv("data/data0523.csv", function(error, data) {
 	//				if (curr_nodes[i].sched[ curr_nodes[i].moves ].act != "Other")
 	//				{
 						var act = curr_nodes[i].sched[ curr_nodes[i].moves ].act
-
+						
 						if (curr_nodes[i].color != "transparent")
 						{
 							groups[curr_nodes[i].act].cnt -= 1;
@@ -1382,7 +1087,7 @@ d3.csv("data/data0523.csv", function(error, data) {
 //							console.log(curr_nodes[i])
 							groups[curr_nodes[i].act].cnt += 1;
 						}
-
+						
 	//					console.log(curr_nodes[i].act)
 	//					curr_nodes[i].moves += 1;
 	//				}
@@ -1407,7 +1112,7 @@ d3.csv("data/data0523.csv", function(error, data) {
 						{
 							curr_nodes[i].stroke = "red";
 						}
-
+						
 						curr_nodes[i].leave = 1;
 	//					console.log("error")
 					}
@@ -1418,27 +1123,27 @@ d3.csv("data/data0523.csv", function(error, data) {
 			}
 
 
-
+									
 
 				force.start();
 
 		}
-
-
-
-
+			
+				
+		
+		
 );
 
 	//		curr_nodes = curr_nodes.filter(function(node) { return node.next_move_time>curr_minute});
 
 
 		for (var i =curr_nodes.length - 1; i >= 0; --i) {
-		if ((curr_nodes[i].next_move_time < curr_minute) && (curr_nodes[i].act == "Left")) {
-			console.log(curr_nodes)
+		if (curr_nodes[i].next_move_time < curr_minute) {
+			console.log(curr_nodes[i])
 			curr_nodes.splice(i,1);
 			}
 		}
-
+	
 //	console.log(groups["Left"].cnt);
 
 		force.resume();
@@ -1448,20 +1153,20 @@ d3.csv("data/data0523.csv", function(error, data) {
         cntlabel.selectAll("text.cnt")
             .text(d => groups[d].cnt);
 
-
+	
 		// Update time
   //      var true_minute = curr_minute % 1440;
 
 		d_t = minutesToTime(curr_minute);
-
+	
 //		d3.select("#current_date").text(d_t[0]);
 
         d3.select("#current_time").text(" " + d_t[1] + ":" + d_t[2] + ":" + d_t[3] + d_t[4]);
-
-
-
+		
+      	
+	
 					circle.remove();
-
+				
 //			circle = svg.selectAll(".node")
 /*
 			circle = svg
@@ -1482,13 +1187,13 @@ d3.csv("data/data0523.csv", function(error, data) {
 					.attr("r", function(d) { return d.radius; })
 					.style("fill", function(d) { return d.color; })
 					.style("stroke", function(d) { return d.stroke; });
-
+					
 					d3.select("#elite").text(member_tiers.Elite.cnt)
 		d3.select("#member").text(member_tiers.Member.cnt)
 		d3.select("#eshopper").text(member_tiers.eshopper.cnt)
-		d3.select("#anonymous").text( member_tiers.anonymous.cnt)
+		d3.select("#anonymous").text( member_tiers.anonymous.cnt)	
 		d3.select("#current_total_users").text("Total: " + (member_tiers.Elite.cnt+member_tiers.Member.cnt+member_tiers.eshopper.cnt+member_tiers.anonymous.cnt));
-
+		
 		if (USER_SPEED != "pause") {
 		    simtimer = setTimeout(timer, speeds[USER_SPEED]);
 		}
@@ -1496,18 +1201,18 @@ d3.csv("data/data0523.csv", function(error, data) {
 	//	console.log(org_prod_cat, prod_cat_selected)
 	}
     // setTimeout(timer, speeds[USER_SPEED]);
-	timer();
+	timer();		
 //	console.log(curr_nodes);
 	function tick(e) {
-
+	
 //	console.log(curr_nodes);
 	  var k = 0.03 * e.alpha;
-
+  
 	  // Push nodes toward their designated focus.
 	  curr_nodes.forEach(function(o, i) {
 
 		var curr_act = o.act;
-
+        
         o.y += (groups[curr_act].y - o.y) * k;
         o.x += (groups[curr_act].x-width*.01 - o.x) * k ;
 
@@ -1519,7 +1224,7 @@ d3.csv("data/data0523.csv", function(error, data) {
 	      .attr("cx", function(d) { return d.x+10; })
 	      .attr("cy", function(d) { return d.y; })
 		  .style("stroke", function(d) { return d.stroke; });
-
+		  
 
 	}
 
@@ -1550,7 +1255,7 @@ d3.csv("data/data0523.csv", function(error, data) {
 	    });
 	  };
 	}
-
+	
 		// Speed toggle
 	d3.selectAll(".togglebutton")
       .on("click", function() {
@@ -1567,17 +1272,17 @@ d3.csv("data/data0523.csv", function(error, data) {
 			d3.select(".medium").classed("current", false);
 			d3.select(".fast").classed("current", true);
         }
-
+		
         force.resume();
         clearTimeout(simtimer);
 		USER_SPEED = d3.select(this).attr("data-val");
-
+        
         if (USER_SPEED != "pause") timer();
     });
 }); // @end d3.tsv
 
 function filter_reset (node)	{
-
+	
 	if (node.exist == 1)
 	{
 	if (node.color == "transparent")
@@ -1596,9 +1301,6 @@ function filter_reset (node)	{
 	{
 		node.stroke = "green";
 	}
-	
-
-	
 	node.color = member_tiers[node.member_tier].color;
 }
 
@@ -1622,34 +1324,34 @@ function filter_bubbles (node) {
 
 //		node.color = "transparent";
 //		console.log(node.color)
-
-
+	
+	
 
 	return node;
 }
 
 
 
-function get_currDateTime (d) {
-
+function get_currDateTime (d) {	
+	
 	curr_time_str = d.split(" ")[1] + ":00" ;
-
+	
 	if (curr_time_str.length != 8)
 	{
 		curr_time_str = "0" + curr_time_str;
 	}
-
-
+	
+	
 	curr_time_arr = curr_time_str.split(":");
-
+	
 	h_temp = parseInt(curr_time_arr[0]);
-
+	
 	if (h_temp > 12)
 	{
 		hh = h_temp-12;
 	}
 	else hh = h_temp
-
+	
 
 //	console.log(curr_time_arr)
 //	hh = curr_time_arr[0];
@@ -1661,17 +1363,17 @@ function get_currDateTime (d) {
 	MM = parseInt(curr_date_arr[0]);
 	yyyy = parseInt(curr_date_arr[2]);
 //	console.log(curr_time_str)
-
+	
 	if (hh == "00")
 	{
 		hh = "12";
 	}
 //	console.log(hh,mm,ss)
-
+	
 	return [dd, MM, yyyy, hh, mm, ss];
 
 }
-
+	
 // Minutes to time of day. Data is minutes from 4am.
 function minutesToTime(s) {
 
@@ -1698,6 +1400,7 @@ function minutesToTime(s) {
 			if (s == 86400 && date_update == 0)
 				{
 					
+
 					date_update = 1
 					var date = d3.select("#current_date").text();
 					date = date.split('/');
@@ -1724,7 +1427,8 @@ function minutesToTime(s) {
 
 	else
 		hh = hh/24;
-	ampm = "am"
+		
+	ampm = "am";
 
 	}
 	else if (hh > 12) {
@@ -1791,4 +1495,4 @@ function wrap(text, width) {
 }
 
 
-</script>
+</script>    
