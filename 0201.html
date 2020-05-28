@@ -30,7 +30,7 @@
         <ul class="dropdown-menu" id="list">
 		 <li id="all">All</li>
          <li id="p_personal_care">p_Personal Care</li>
- <!--          <li id="p_skincare">p_Skincare</li>	
+          <li id="p_skincare">p_Skincare</li>	
 		  <li id="p_cosmetics">p_Cosmetics</li>
 		<li id="p_health_care">p_Health Care</li>
 		  <li id="p_body_hair_care">p_Body Hair Care</li>
@@ -39,9 +39,9 @@
 		  <li id="p_other">p_Other</li>
 		  <li id="p_derma">p_Derma</li>
 		  <li id="p_watsons_brand">p_Watsons Brand</li>
-		  <li id="p_bulk_buy">p_Bulk Buy</li>-->
+		  <li id="p_bulk_buy">p_Bulk Buy</li>
 		  <li id="b_personal_care">b_Personal Care</li>
-  <!--         <li id="b_skincare">b_Skincare</li>	
+         <li id="b_skincare">b_Skincare</li>	
 		  <li id="b_cosmetics">b_Cosmetics</li>
 			<li id="b_health_care">b_Health Care</li>
 		  <li id="b_body_hair_care">b_Body Hair Care</li>
@@ -50,7 +50,7 @@
 		  <li id="b_other">b_Other</li>
 		  <li id="b_derma">b_Derma</li>
 		  <li id="b_watsons_brand">b_Watsons Brand</li>
-		  <li id="b_bulk_buy">b_Bulk Buy</li>		-->
+		  <li id="b_bulk_buy">b_Bulk Buy</li>		
         </ul>
 	
       </div>
@@ -248,30 +248,30 @@ legned_svg.append("circle")
 
 const groups = {
 
-	"Paid Search": { x: 140, y: 60, cnt: 0, fullname: "Paid Search"},
-	"Organic Search": { x: 280, y: 140, cnt: 0 , fullname: "Organic Search"},
-	"Social": { x: 140, y: 220, cnt: 0, fullname: "Social"},
-	"Referral": { x: 280, y: 280, cnt: 0, fullname: "Referral"},
-	"Direct": { x: 140, y: 340, cnt: 0 , fullname: "Direct"},
-	"Affiliate": { x: 280, y: 420, cnt: 0, fullname: "Affiliate"},
-	"Web Push": { x: 140, y: 480, cnt: 0, fullname: "Web Push"},
-	"O2O": { x: 280, y: 540, cnt: 0, fullname: "O2O"},
-	"Others": { x: 140, y: 600, cnt: 0, fullname: "Others"},
-	
-	"Homepage": { x: 900, y: 60, cnt: 0, fullname: "Homepage" },
-	"Login": { x: 1000, y: 200, cnt: 0, fullname: "Login" },	
-	"Product": { x: 750, y: 450, cnt: 0, fullname: "Product" },
-	"Other": { x: 1320, y: 520, cnt: 0, fullname: "Promo&Others" },
-	"Category": { x: 780, y: 160, cnt: 0, fullname: "Category" },
-	"BlogContent": { x: 1370, y: 370, cnt: 0, fullname: "Blog Content" },
-	"Cart": { x: 820, y: 570, cnt: 0, fullname: "Cart" },
-	"Checkout": {  x: 1000, y: 655, cnt: 0, fullname: "Checkout" },
-	"Loyalty": { x: 1350, y: 220, cnt: 0, fullname: "Loyalty" },
-	"MyAccount": { x: 1270, y: 100, cnt: 0, fullname: "My Account" },
-	"Register": { x: 1100, y: 30, cnt: 0, fullname: "Register" },
-	"SearchResult": { x: 730, y: 290, cnt: 0, fullname: "Search Result" },
+	"Paid Search": { x: 140, y: 70, cnt: 0, fullname: "Paid Search"},
+	"Organic Search": { x: 280, y: 150, cnt: 0 , fullname: "Organic Search"},
+	"Social": { x: 140, y: 230, cnt: 0, fullname: "Social"},
+	"Referral": { x: 280, y: 290, cnt: 0, fullname: "Referral"},
+	"Direct": { x: 140, y: 350, cnt: 0 , fullname: "Direct"},
+	"Affiliate": { x: 280, y: 430, cnt: 0, fullname: "Affiliate"},
+	"Web Push": { x: 140, y: 490, cnt: 0, fullname: "Web Push"},
+	"O2O": { x: 280, y: 550, cnt: 0, fullname: "O2O"},
+	"Others": { x: 140, y: 610, cnt: 0, fullname: "Others"},
+
+	"Homepage": { x: 800, y: 150, cnt: 0, fullname: "Homepage" },
+	"Login": { x: 940, y: 60, cnt: 0, fullname: "Login" },	
+	"Product": { x: 800, y: 560, cnt: 0, fullname: "Product" },
+	"Other": { x: 1320, y: 530, cnt: 0, fullname: "Promo&Others" },
+	"Category": { x: 740, y: 260, cnt: 0, fullname: "Category" },
+	"BlogContent": { x: 1370, y: 380, cnt: 0, fullname: "Blog Content" },
+	"Cart": { x: 900, y: 640, cnt: 0, fullname: "Cart" },
+	"Checkout": {  x: 1050, y: 680, cnt: 0, fullname: "Checkout" },
+	"Loyalty": { x: 1350, y: 230, cnt: 0, fullname: "Loyalty" },
+	"MyAccount": { x: 1270, y: 110, cnt: 0, fullname: "My Account" },
+	"Register": { x: 1100, y: 40, cnt: 0, fullname: "Register" },
+	"SearchResult": { x: 730, y: 400, cnt: 0, fullname: "Search Result" },
 	"Left" : { x: 850, y: 20000, cnt: 0, fullname: "Left" },
-	"NULL" : { x: 1200, y: 620, cnt: 0, fullname: "Order Placed" }
+	"NULL" : { x: 1200, y: 630, cnt: 0, fullname: "Order Placed" }
 	
 };
 
@@ -296,7 +296,7 @@ var layer2 = svg.append('g');
 //d3.csv("data/Page_Duration.csv", function(error, data) {	
 
 //d3.csv("data/data_channels.csv", function(error, data) {	
-d3.csv("data/0201_health_care_8am.csv", function(error, data) {
+d3.csv("data/0201_8am_exceptallN.csv", function(error, data) {
 //d3.csv("data/new_test.csv", function(error, data) {	
 //d3.csv("data/test2.csv", function(error, data) {	
 //d3.csv("data/new_dataset.csv", function(error, data) {	
@@ -769,7 +769,7 @@ d3.csv("data/0201_health_care_8am.csv", function(error, data) {
 
 					}
 			}
-/*			
+			
 			else if (prod_cat_selected == "p_skincare")
 			{
 				if (curr_nodes[i].p_skincare == "N")
@@ -861,7 +861,7 @@ d3.csv("data/0201_health_care_8am.csv", function(error, data) {
 
 					}
 			}	
-*/
+
 			else if (prod_cat_selected == "b_personal_care")
 			{
 				if (curr_nodes[i].b_personal_care == "N")
@@ -870,7 +870,7 @@ d3.csv("data/0201_health_care_8am.csv", function(error, data) {
 
 					}
 			}	
-/*
+
 			else if (prod_cat_selected == "b_skincare")
 			{
 				if (curr_nodes[i].b_skincare == "N")
@@ -960,7 +960,7 @@ d3.csv("data/0201_health_care_8am.csv", function(error, data) {
 
 					}
 			}
-*/			
+			
 		}
 
 //		d3.select("#test").text("test "+document.getElementById("list_input").value)
