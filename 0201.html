@@ -142,7 +142,7 @@ var	sched_objs = {},
 // var sched_objs = [],
 //	curr_minute = 0;
 //	curr_minute = 79200 - 60;
-	curr_minute = 43200 - 60;
+	curr_minute = 28800 - 60; //8am
 
 //const svg = d3.select("#chart").append("svg")
 //    .attr("width", width + margin.left + margin.right)
@@ -259,8 +259,9 @@ const groups = {
 	"Others": { x: 140, y: 600, cnt: 0, fullname: "Others"},
 	
 	"Homepage": { x: 900, y: 60, cnt: 0, fullname: "Homepage" },
+	"Login": { x: 1000, y: 200, cnt: 0, fullname: "Login" },	
 	"Product": { x: 750, y: 450, cnt: 0, fullname: "Product" },
-	"Other": { x: 1320, y: 520, cnt: 0, fullname: "Other" },
+	"Other": { x: 1320, y: 520, cnt: 0, fullname: "Promo&Others" },
 	"Category": { x: 780, y: 160, cnt: 0, fullname: "Category" },
 	"BlogContent": { x: 1370, y: 370, cnt: 0, fullname: "Blog Content" },
 	"Cart": { x: 820, y: 570, cnt: 0, fullname: "Cart" },
@@ -295,7 +296,7 @@ var layer2 = svg.append('g');
 //d3.csv("data/Page_Duration.csv", function(error, data) {	
 
 //d3.csv("data/data_channels.csv", function(error, data) {	
-d3.csv("data/data0201.csv", function(error, data) {
+d3.csv("data/0201_health_care_8am.csv", function(error, data) {
 //d3.csv("data/new_test.csv", function(error, data) {	
 //d3.csv("data/test2.csv", function(error, data) {	
 //d3.csv("data/new_dataset.csv", function(error, data) {	
@@ -1264,14 +1265,13 @@ d3.csv("data/data0201.csv", function(error, data) {
 			if (curr_nodes[i].next_move_time == curr_minute) {
 		
 				//console.log(curr_nodes[i].sched)
-				if (curr_nodes.leave != 1)
-				{
-					curr_nodes.leave = 0;
-				}
-
 					if (! ["Paid Search", "Organic Search", "Social", "Referral", "Direct", "Affiliate", "Web Push", "O2O", "Others"].includes(curr_nodes[i].act))
 					{
 						curr_nodes[i].stroke = "transparent";
+										if (curr_nodes.leave != 1)
+				{
+					curr_nodes.leave = 0;
+				}
 					}
 					
 //				console.log(curr_nodes[i].moves, curr_nodes[i].sched.length-1)
@@ -1680,7 +1680,7 @@ function minutesToTime(s) {
 		}
 
 	else
-		hh = hh/24;
+		hh = hh%24;
 		
 	ampm = "am";
 
