@@ -195,7 +195,7 @@ color: #fff;
 
 .dropdown .dropdown-menu li:active {
   /*  background-color: #e2e2e2*/
-  background-color: #787878
+  background-color: rgba(25, 25, 82 , 0.8)
 }
 
 .dropdown .dropdown-menu:hover {
