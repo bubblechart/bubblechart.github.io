@@ -36,7 +36,9 @@ color: #fff;
 
 /*Styling Selectbox*/
 .dropdown {
-  width: 80%;
+  width: 90%;
+  margin-left: 10px;
+  margin-right: 10px;
   display: inline-block;
 /*  background-color: #fff;*/
 /*  border-radius: 5px;*/
