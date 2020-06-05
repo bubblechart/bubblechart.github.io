@@ -164,7 +164,7 @@ h3 {
 }
 
 #current_time {
-	font-size: 2.5rem;
+	font-size: 2.3rem;
 /*	color: #000;*/
 	color: #fff;
 	text-align: left;
@@ -181,10 +181,12 @@ h3 {
     font-size: 14px;
     text-transform: uppercase;
 /*    margin: 15px auto 0px auto;*/
-	margin: auto;
+/*	margin: auto;*/
 	margin-top: -5px;
 	text-align: center;
-    width: 76%;
+      width: 90%;
+  margin-left: 13px;
+/*  margin-right: 10px;*/
 	
 /*	margin-bottom: 8px;*/
 }
@@ -195,7 +197,7 @@ h3 {
         border: 1px solid #ccc;
         cursor: pointer;
 		float: left;
-		width: 60px;
+		width: 32.7%;
 		height: 20px;
 		color: #fff;
         background: rgba(24, 27, 43, 0);
@@ -283,6 +285,7 @@ h3 {
 /*	margin: auto;*/
 	width: 80%;
 	height: 100%;
+	background-color: #404773;
 }
 
 @media only screen and (min-width: 601px) {
