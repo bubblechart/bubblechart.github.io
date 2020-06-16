@@ -592,19 +592,20 @@ legned_svg.append("circle")
 const groups = {
 
 	"Paid Search": { x: 70, y: 90, cnt: 0, fullname: "Paid Search"},
-	"Organic Search": { x: 240, y: 170, cnt: 0 , fullname: "Organic Search"},
+	"Organic Search": { x: 240, y: 150, cnt: 0 , fullname: "Organic Search"},
 	"Social": { x: 70, y: 250, cnt: 0, fullname: "Social"},
-	"Referral": { x: 240, y: 330, cnt: 0, fullname: "Referral"},
+	"Referral": { x: 240, y: 310, cnt: 0, fullname: "Referral"},
 	"Direct": { x: 70, y: 410, cnt: 0 , fullname: "Direct"},
-	"Affiliate": { x: 240, y: 490, cnt: 0, fullname: "Affiliate"},
+	"Affiliate": { x: 240, y: 470, cnt: 0, fullname: "Affiliate"},
 	"Web Push": { x: 70, y: 570, cnt: 0, fullname: "Web Push"},
-	"O2O": { x: 240, y: 650, cnt: 0, fullname: "O2O"},
+	"O2O": { x: 240, y: 630, cnt: 0, fullname: "O2O"},
 	"Others": { x: 70, y: 730, cnt: 0, fullname: "Others"},
+	"Email": { x: 240, y: 790, cnt: 0, fullname: "Email"},
 
 	"Homepage": { x: 710, y: 190, cnt: 0, fullname: "Homepage" },
 	"Login": { x: 840, y: 100, cnt: 0, fullname: "Login" },	
 	"Product": { x: 700, y: 600, cnt: 0, fullname: "Product" },
-	"Other": { x: 1220, y: 560, cnt: 0, fullname: "Promo&Others" },
+	"Other": { x: 1220, y: 560, cnt: 0, fullname: "Promo & Others" },
 	"Category": { x: 640, y: 300, cnt: 0, fullname: "Category" },
 	"BlogContent": { x: 1270, y: 400, cnt: 0, fullname: "Blog Content" },
 	"Cart": { x: 800, y: 680, cnt: 0, fullname: "Cart" },
@@ -812,6 +813,10 @@ d3.csv("data/0523_8am_exceptallN.csv", function(error, data) {
 		else if (temp_medium.match(/sms/g) != null)
 		{
 			medium = "O2O";
+		}
+		else if (temp_medium == 'email')
+		{
+			medium = "Email";
 		}
 
 		d.unshift({'userid': d[0].userid,
